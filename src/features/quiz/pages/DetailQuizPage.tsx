@@ -140,7 +140,7 @@ const DetailQuizPage = () => {
         title="Eliminar cuestionario"
         message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
-        onConfirm={async () => { await remove(quizId!); navigate(-1) }}
+        onConfirm={async () => { await remove(quizId!); navigate(PATHS.list) }}
         onClose={() => setOpenDialogDelete(false)}
       />
 

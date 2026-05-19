@@ -27,6 +27,7 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
   const [idQuestionToDelete, setIdQuestionToDelete] = useState<string | null>(null)
 
   const nextOrder = questions.length === 0 ? 100 : Math.max(...questions.map(q => q.order)) + 100
+  const isBusy = showCreateForm || questionToEdit !== null
 
   if (loading) return <PageLoader />
   if (error) return <ErrorAlert message={error} />
@@ -90,14 +91,14 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'row', md: 'column' }, flexShrink: 0 }}>
                   <Box sx={{ flex: 1, display: 'flex', borderTop: { xs: '1px solid #dadada', md: 0 }, borderLeft: { xs: 0, md: '1px solid #dadada' }}}>
                     <Tooltip title="Modificar">
-                      <IconButton onClick={() => setQuestionToEdit(question)} sx={{ flex: 1, borderRadius: 0, color: 'primary.main', px: 2 }}>
+                      <IconButton onClick={() => setQuestionToEdit(question)} disabled={isBusy} sx={{ flex: 1, borderRadius: 0, color: 'primary.main', px: 2 }}>
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </Box>
                   <Box sx={{ flex: 1, display: 'flex', borderTop: '1px solid', borderLeft: '1px solid', borderColor: 'divider' }}>
                     <Tooltip title="Eliminar">
-                      <IconButton color="error" onClick={() => setIdQuestionToDelete(question.id)} sx={{ flex: 1, borderRadius: 0, px: 2 }}>
+                      <IconButton color="error" onClick={() => setIdQuestionToDelete(question.id)} disabled={isBusy} sx={{ flex: 1, borderRadius: 0, px: 2 }}>
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -110,7 +111,7 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
         )}
       </Box>
 
-      {isEditable && !questionToEdit && (
+      {isEditable && !isBusy && (
         <Box>
           <Button startIcon={<AddIcon />} onClick={() => setShowCreateForm(true)}>
                 Añadir pregunta

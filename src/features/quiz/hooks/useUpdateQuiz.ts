@@ -6,7 +6,6 @@ import { useAuth } from '../../../shared/hooks/useAuth'
 import { QuizSchema, type QuizFormData } from '../schemas/quizSchema'
 import { updateQuiz } from '../services/quizApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
-import { PATHS } from '../../../app/routes/paths'
 import { useDetailQuiz } from './useDetailQuiz'
 import type { QuizUpdate } from '../types/quiz'
 
@@ -49,7 +48,7 @@ export const useUpdateQuiz = () => {
     setError(null)
     try {
       await updateQuiz(userId, quizId, buildQuiz(data))
-      navigate(PATHS.edit(quizId))
+      navigate(-1)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al guardar los datos del cuestionario'))
     } finally {

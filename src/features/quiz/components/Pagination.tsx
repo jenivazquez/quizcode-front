@@ -16,14 +16,17 @@ const btnSx = (disabled: boolean) => ({
 
 const Pagination = ({ page, totalPages, onPageChange }: Props) => {
 
+  const isFirstPage = page === 0
+  const isLastPage  = page >= totalPages - 1
+
   const buttonsBefore = [
-    { title: 'Primera página', icon: <FirstPageIcon/>, disabled: page === 0, action: () => onPageChange(0) },
-    { title: 'Página anterior', icon: <NavigateBeforeIcon/>, disabled: page === 0, action: () => onPageChange(page - 1) },
+    { title: 'Primera página', icon: <FirstPageIcon/>, disabled: isFirstPage, action: () => onPageChange(0) },
+    { title: 'Página anterior', icon: <NavigateBeforeIcon/>, disabled: isFirstPage, action: () => onPageChange(page - 1) },
   ]
 
   const buttonsAfter = [
-    { title: 'Página siguiente', icon: <NavigateNextIcon/>, disabled: page === totalPages - 1, action: () => onPageChange(page + 1) },
-    { title: 'Última página', icon: <LastPageIcon/>, disabled: page === totalPages - 1, action: () => onPageChange(totalPages - 1) },
+    { title: 'Página siguiente', icon: <NavigateNextIcon/>, disabled: isLastPage, action: () => onPageChange(page + 1) },
+    { title: 'Última página', icon: <LastPageIcon/>, disabled: isLastPage, action: () => onPageChange(totalPages - 1) },
   ]
 
   return (

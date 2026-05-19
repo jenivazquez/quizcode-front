@@ -5,15 +5,15 @@ import { Suspense } from 'react'
 import PageLoader from '../components/PageLoader'
 
 const MainLayout = () => (
-  <>
+  <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
     <ScrollRestoration />
     <Navbar />
-    <Box sx={{ minHeight: 'calc(100vh - 64px)' }}>
+    <Box sx={{ flexGrow: 1 }}>
       <Suspense fallback={<PageLoader />}>
         <Outlet />
       </Suspense>
     </Box>
-  </>
+  </Box>
 )
 
 export default MainLayout
