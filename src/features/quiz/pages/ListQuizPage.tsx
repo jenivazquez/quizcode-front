@@ -69,11 +69,11 @@ const ListQuizPage = () => {
               <TableHead>
                 <TableRow sx={{ bgcolor: 'grey.50' }}>
                   <TableCell sx={{ fontWeight: 600 }}>Título</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>Descripción</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }} align="center">Estado</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }} align="center">Duración</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }} align="center">Fecha de alta</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }} align="center">Acciones</TableCell>
+                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', md: 'table-cell' } }}>Descripción</TableCell>
+                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Estado</TableCell>
+                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Duración</TableCell>
+                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Fecha de alta</TableCell>
+                  <TableCell sx={{ fontWeight: 600, width: 20 }} align="center">Acciones</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -81,7 +81,7 @@ const ListQuizPage = () => {
 
                 {quizzes.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} align="center" sx={{ py: 8, color: 'text.secondary' }}>
+                    <TableCell colSpan={6} align="center" sx={{ py: 6, color: 'text.secondary' }}>
                           Todavía no tienes ningún cuestionario.
                     </TableCell>
                   </TableRow>
@@ -93,19 +93,19 @@ const ListQuizPage = () => {
 
                       <TableCell>{quiz.title}</TableCell>
 
-                      <TableCell sx={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                      <TableCell sx={{ maxWidth: 300, display: { xs: 'none', md: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {quiz.description}
                       </TableCell>
 
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                         <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" size="small" sx={sxStatusChip[quiz.status]}/>
                       </TableCell>
 
-                      <TableCell align="center" sx={{ color: 'text.secondary' }}>
+                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }, color: 'text.secondary' }}>
                         {quiz.hasLimit ? `${quiz.limitMinutes} min` : '—'}
                       </TableCell>
 
-                      <TableCell align="center" sx={{ color: 'text.secondary' }}>
+                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }, color: 'text.secondary' }}>
                         {new Date(quiz.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </TableCell>
 
@@ -142,7 +142,7 @@ const ListQuizPage = () => {
 
           </TableContainer>
 
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          {totalPages > 0 && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
 
         </Box>
 

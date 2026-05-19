@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, alpha } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface PaletteColor {
@@ -35,7 +35,7 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.extralight,
-          color: theme.palette.getContrastText(theme.palette.primary.extralight!),
+          color: theme.palette.action.active,
         }),
       },
     },
@@ -47,6 +47,25 @@ const theme = createTheme({
           '&:hover': {
             backgroundColor: theme.palette.primary.light,
           },
+        }),
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: alpha(theme.palette.primary.main, 0.55),
+          outlineWidth: '3px',
+          outlineStyle: 'solid',
+          outlineColor: alpha(theme.palette.primary.main, 0.55),
+          outlineOffset: '4px',
+        }),
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.extralight,
+          color: theme.palette.getContrastText(theme.palette.primary.extralight!),
         }),
       },
     },

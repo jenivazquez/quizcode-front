@@ -1,5 +1,4 @@
 import { Avatar, Box, Paper, Typography, IconButton, Tooltip, Grid, Container } from '@mui/material'
-import { alpha } from '@mui/material/styles'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
@@ -33,7 +32,7 @@ const DetailUserPage = () => {
         <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
           <Box sx={{ px: 5, py: 5, textAlign: 'center', borderBottom: '1px solid', borderColor: 'divider', backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-            <Avatar sx={(theme) => ({ width: 100, height: 100, fontSize: 45, bgcolor: alpha(theme.palette.primary.main, 0.55), outline: '3px solid', outlineColor: alpha(theme.palette.primary.main, 0.55), outlineOffset: '4px' })}>
+            <Avatar sx={{ width: 100, height: 100, fontSize: 45 }}>
               {user.name.charAt(0).toUpperCase()}
             </Avatar>
             <Typography variant="h5" fontWeight={700}>
