@@ -6,13 +6,11 @@ import { CreateUserSchema, type CreateUserFormData } from '../schemas/createUser
 import { createUser } from '../services/userApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { PATHS } from '../../../app/routes/paths'
-import { NAVIGATION_DELAY } from '../../../shared/constants/constants'
 
 export const useCreateUser = () => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
   const form = useForm<CreateUserFormData>({
@@ -25,8 +23,7 @@ export const useCreateUser = () => {
     try {
       const { repeatPassword, ...userCreate } = data
       await createUser(userCreate)
-      setSuccess(true)
-      setTimeout(() => navigate(PATHS.login), NAVIGATION_DELAY)
+      navigate(PATHS.login)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al crear el usuario'))
     } finally {
@@ -34,5 +31,5 @@ export const useCreateUser = () => {
     }
   }
 
-  return { form, onSubmit, loading, error, success }
+  return { form, onSubmit, loading, error }
 }

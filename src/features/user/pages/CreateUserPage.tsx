@@ -4,10 +4,9 @@ import { useCreateUser } from '../hooks/useCreateUser'
 import { PATHS } from '../../../app/routes/paths'
 import { type CreateUserFormData } from '../schemas/createUserSchema'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
-import SuccessSnackbar from '../../../shared/components/SuccessSnackbar'
 
 const CreateUserPage = () => {
-  const { form, onSubmit, loading, error, success } = useCreateUser()
+  const { form, onSubmit, loading, error } = useCreateUser()
   const { register, handleSubmit, formState: { errors } } = form
 
   const fields: { name: keyof CreateUserFormData; label: string; type?: string }[] = [
@@ -22,8 +21,6 @@ const CreateUserPage = () => {
   return (
 
     <Container maxWidth="md" sx={{ minHeight: 'calc(100vh - 64px)', display: 'flex', alignItems: 'center', py: 3}}>
-
-      <SuccessSnackbar open={success} message="¡Cuenta creada con éxito!" />
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
 

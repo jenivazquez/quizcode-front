@@ -9,7 +9,6 @@ import type { UserUpdate } from '../types/user'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { useDetailUser } from './useDetailUser'
 import { PATHS } from '../../../app/routes/paths'
-import { NAVIGATION_DELAY } from '../../../shared/constants/constants'
 
 function buildUser(data: UpdateUserFormData): UserUpdate {
   return {
@@ -26,7 +25,6 @@ export const useUpdateUser = () => {
   const { user, loading: loadingUser, error: profileError } = useDetailUser()
   const [loadingEdit, setLoadingEdit] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
   const form = useForm<UpdateUserFormData>({
@@ -50,8 +48,7 @@ export const useUpdateUser = () => {
     setError(null)
     try {
       await updateUser(userId, buildUser(data))
-      setSuccess(true)
-      setTimeout(() => navigate(PATHS.profile), NAVIGATION_DELAY)
+      navigate(PATHS.profile)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al actualizar el perfil'))
     } finally {
@@ -59,5 +56,5 @@ export const useUpdateUser = () => {
     }
   }
 
-  return { form, onSubmit, user, loadingUser, loadingEdit, error: error ?? profileError, success }
+  return { form, onSubmit, user, loadingUser, loadingEdit, error: error ?? profileError }
 }
