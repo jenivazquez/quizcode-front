@@ -1,0 +1,26 @@
+import { useState } from 'react'
+import { deleteQuiz } from '../services/quizApi'
+import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
+import { useAuth } from '../../../shared/hooks/useAuth'
+
+export const useDeleteQuiz = () => {
+  
+  const { userId } = useAuth()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const remove = async (quizId: string) => {
+    if (!userId || !quizId) return
+    setLoading(true)
+    setError(null)
+    try {
+      await deleteQuiz(userId, quizId)
+    } catch (err) {
+      setError(getErrorMessage(err, 'Error al eliminar el cuestionario'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { remove, loading, error }
+}
