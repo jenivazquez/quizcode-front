@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react'
 
 interface ErrorAlertProps {
   message: string | null
+  severity?: 'error' | 'warning' | 'info' | 'success'
 }
 
-const ErrorAlert = ({ message }: ErrorAlertProps) => {
+const ErrorAlert = ({ message, severity = 'error' }: ErrorAlertProps) => {
 
   const [closed, setClosed] = useState<boolean>(false)
 
@@ -14,7 +15,7 @@ const ErrorAlert = ({ message }: ErrorAlertProps) => {
 
   if (closed || !message) return null
   return (
-    <Alert severity="error" sx={{ mb: 2, width: '100%' }} onClose={() => setClosed(true)}>
+    <Alert severity={severity} sx={{ mb: 2, width: '100%' }} onClose={() => setClosed(true)}>
       {message}
     </Alert>
   )

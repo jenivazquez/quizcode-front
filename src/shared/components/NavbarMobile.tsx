@@ -8,10 +8,13 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
 import { PATHS } from '../../app/routes/paths'
 import { useAuth } from '../hooks/useAuth'
+import { useLogout } from '../hooks/useLogout'
 import { useDetailUser } from '../../features/user/hooks/useDetailUser'
 
 const NavbarMobile = () => {
-  const { isAuth, clearSession } = useAuth()
+  
+  const { isAuth } = useAuth()
+  const { logout } = useLogout()
   const { user } = useDetailUser()
 
   const [open, setOpen] = useState(false)
@@ -74,7 +77,7 @@ const NavbarMobile = () => {
           <Divider sx={{ my: 1, mx: 2 }} />
 
           <ListItem disablePadding>
-            <ListItemButton onClick={() => { clearSession(); close() }}>
+            <ListItemButton onClick={() => { logout(); close() }}>
               <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
               <ListItemText primary="Cerrar sesión" />
             </ListItemButton>

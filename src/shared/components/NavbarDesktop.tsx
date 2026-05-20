@@ -7,11 +7,13 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
 import { PATHS } from '../../app/routes/paths'
 import { useAuth } from '../hooks/useAuth'
+import { useLogout } from '../hooks/useLogout'
 import { useDetailUser } from '../../features/user/hooks/useDetailUser'
 
 const NavbarDesktop = () => {
-  
-  const { isAuth, clearSession } = useAuth()
+
+  const { isAuth } = useAuth()
+  const { logout } = useLogout()
   const { user } = useDetailUser()
   
   const [anchor, setAnchor] = useState<null | HTMLElement>(null)
@@ -66,7 +68,7 @@ const NavbarDesktop = () => {
 
             <Divider/>
             
-            <MenuItem onClick={() => { clearSession(); close() }}>
+            <MenuItem onClick={() => { logout(); close() }}>
               <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
               Cerrar sesión
             </MenuItem>
