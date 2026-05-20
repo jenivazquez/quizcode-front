@@ -24,23 +24,28 @@ interface QuestionFormProps {
 
 const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: QuestionFormProps) => {
 
-  const { register, handleSubmit, control, watch, setValue, formState: { errors } } = form
+  const { register, handleSubmit, control, watch, setValue, formState: { errors, isDirty } } = form
   const { fields, append, remove, replace } = useFieldArray({ control, name: 'options' })
 
   const type = watch('type')
   const options = watch('options')
 
   const handleTypeOnChange = (newType: QuestionType) => {
-    setValue('type', newType)
-    const minOptions = (newType === QuestionType.MULTIPLE_CHOICE) ? 3 : (newType === QuestionType.SINGLE_CHOICE) ? 2 : 0
-    replace(Array.from({ length: minOptions }, () => ({ value: '', isValid: false })))
+    setValue('type', newType, { shouldDirty: true })
+    if (newType !== QuestionType.EDIT_CODE) {
+      const minOptions = newType === QuestionType.MULTIPLE_CHOICE ? 3 : 2
+      const optionsWithValue = options.filter(o => o.value.trim() !== '')
+      const numNewOptions = Math.max(0, minOptions - optionsWithValue.length)
+      const finalOptions = [...optionsWithValue, ...Array.from({ length: numNewOptions }, () => ({ value: '', isValid: false }))]
+      if (finalOptions.length !== options.length) replace(finalOptions)
+    }
   }
 
   const handleValidOnChange = (index: number) => {
     if (type === QuestionType.SINGLE_CHOICE) {
-      fields.forEach((_, i) => setValue(`options.${i}.isValid`, i === index))
+      fields.forEach((_, i) => setValue(`options.${i}.isValid`, i === index, { shouldDirty: true }))
     } else {
-      setValue(`options.${index}.isValid`, !options[index]?.isValid)
+      setValue(`options.${index}.isValid`, !options[index]?.isValid, { shouldDirty: true })
     }
   }
 
@@ -85,15 +90,22 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
             </Grid>
 
             <Grid size={4}>
-              <TextField
-                label="Puntuación"
-                type="number"
-                required
-                fullWidth
-                slotProps={{ htmlInput: { min: 1 } }}
-                {...register('score', { valueAsNumber: true })}
-                error={!!errors.score}
-                helperText={errors.score?.message}
+              <Controller
+                name="score"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Puntuación"
+                    type="number"
+                    required
+                    fullWidth
+                    slotProps={{ htmlInput: { min: 1 } }}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    error={!!errors.score}
+                    helperText={errors.score?.message}
+                  />
+                )}
               />
             </Grid>
 
@@ -161,7 +173,7 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
 
             <Grid size={12}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-                <Button type="submit" variant="contained" disabled={loading}>
+                <Button type="submit" variant="contained" disabled={loading || (isUpdating && !isDirty)}>
                   {isUpdating ? 'Guardar cambios' : 'Crear pregunta'}
                 </Button>
               </Box>
