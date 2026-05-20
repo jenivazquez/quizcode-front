@@ -5,6 +5,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import SortTableHeaderCell from '../components/SortTableHeaderCell'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useListQuiz } from '../hooks/useListQuiz'
@@ -14,21 +15,50 @@ import ErrorAlert from '../../../shared/components/ErrorAlert'
 import ConfirmDialog from '../../../shared/components/ConfirmDialog'
 import { PATHS } from '../../../app/routes/paths'
 import { STATUS_LABEL, sxStatusChip } from '../constants/quizConstants'
+import type { QuizDetail } from '../types/quiz'
 import Pagination from '../components/Pagination'
 
-const ListQuizPage = () => {
+type SortField = 'Título' | 'Descripción' | 'Estado' | 'Duración' | 'Fecha'
+type SortDirection = 'asc' | 'desc'
 
-  const [idQuizToDelete, setIdQuizToDelete] = useState<string | null>(null)
-  const [page, setPage] = useState(0)
+const ListQuizPage = () => {
 
   const { quizzes, loading: loadingQuizzes, error: listError, refreshQuizzes } = useListQuiz()
   const { remove, loading: loadingDelete, error: deleteError } = useDeleteQuiz()
 
+  const [idQuizToDelete, setIdQuizToDelete] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
+  const [sortField, setSortField] = useState<SortField>('Fecha')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+
   const navigate = useNavigate()
 
+  const handleSort = (field: SortField) => {
+    if (field === sortField) {
+      setSortDirection(d => d === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortField(field)
+      setSortDirection('asc')
+    }
+    setPage(0)
+  }
+
+  const comparators: Record<SortField, (a: QuizDetail, b: QuizDetail) => number> = {
+    'Título':      (a, b) => a.title.localeCompare(b.title, 'es'),
+    'Descripción': (a, b) => a.description.localeCompare(b.description, 'es'),
+    'Estado':      (a, b) => a.status.localeCompare(b.status),
+    'Duración':    (a, b) => (a.limitMinutes ?? Infinity) - (b.limitMinutes ?? Infinity),
+    'Fecha':       (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+  }
+
+  const sortedQuizzes = [...quizzes].sort((a, b) => {
+    const order = comparators[sortField](a, b)
+    return sortDirection === 'asc' ? order : -order
+  })
+
   const rowsPerPage = 10
-  const totalPages = Math.ceil(quizzes.length / rowsPerPage)
-  const visibleQuizzes = quizzes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  const totalPages = Math.ceil(sortedQuizzes.length / rowsPerPage)
+  const visibleQuizzes = sortedQuizzes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
   if (loadingQuizzes && quizzes.length === 0) return <PageLoader />
   if (listError) return <ErrorAlert message={listError} />
@@ -60,11 +90,11 @@ const ListQuizPage = () => {
 
               <TableHead>
                 <TableRow sx={{ bgcolor: 'grey.50' }}>
-                  <TableCell sx={{ fontWeight: 600 }}>Título</TableCell>
-                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', md: 'table-cell' } }}>Descripción</TableCell>
-                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Estado</TableCell>
-                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Duración</TableCell>
-                  <TableCell sx={{ fontWeight: 600, display: { xs: 'none', sm: 'table-cell' } }} align="center">Fecha de alta</TableCell>
+                  <SortTableHeaderCell sortField={sortField} sortDirection={sortDirection} onSort={handleSort} field="Título" />
+                  <SortTableHeaderCell sortField={sortField} sortDirection={sortDirection} onSort={handleSort} field="Descripción" hideBelow="lg" />
+                  <SortTableHeaderCell sortField={sortField} sortDirection={sortDirection} onSort={handleSort} field="Estado" align="center" hideBelow="sm" />
+                  <SortTableHeaderCell sortField={sortField} sortDirection={sortDirection} onSort={handleSort} field="Duración" align="center" hideBelow="md" />
+                  <SortTableHeaderCell sortField={sortField} sortDirection={sortDirection} onSort={handleSort} field="Fecha" align="center" hideBelow="sm" />
                   <TableCell sx={{ fontWeight: 600, width: 20 }} align="center">Acciones</TableCell>
                 </TableRow>
               </TableHead>
@@ -85,7 +115,7 @@ const ListQuizPage = () => {
 
                       <TableCell>{quiz.title}</TableCell>
 
-                      <TableCell sx={{ maxWidth: 300, display: { xs: 'none', md: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <TableCell sx={{ maxWidth: 300, display: { xs: 'none', lg: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {quiz.description}
                       </TableCell>
 
@@ -93,7 +123,7 @@ const ListQuizPage = () => {
                         <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" size="small" sx={sxStatusChip[quiz.status]}/>
                       </TableCell>
 
-                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }, color: 'text.secondary' }}>
+                      <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' }, color: 'text.secondary' }}>
                         {quiz.hasLimit ? `${quiz.limitMinutes} min` : '—'}
                       </TableCell>
 
