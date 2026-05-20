@@ -8,7 +8,7 @@ const MainLayout = () => (
   <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
     <ScrollRestoration />
     <Navbar />
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Suspense fallback={<PageLoader />}>
         <Outlet />
       </Suspense>

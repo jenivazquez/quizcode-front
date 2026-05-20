@@ -33,11 +33,11 @@ const ListQuizPage = () => {
 
   const navigate = useNavigate()
 
-  const handleSort = (field: SortField) => {
+  const handleSort = (field: string) => {
     if (field === sortField) {
       setSortDirection(d => d === 'asc' ? 'desc' : 'asc')
     } else {
-      setSortField(field)
+      setSortField(field as SortField)
       setSortDirection('asc')
     }
     setPage(0)
@@ -65,7 +65,7 @@ const ListQuizPage = () => {
 
   return (
 
-    <Container maxWidth="lg" sx={{ py: 6 }}>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 

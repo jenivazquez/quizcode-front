@@ -20,7 +20,7 @@ const UpdateUserPage = () => {
 
   return (
 
-    <Container maxWidth="lg" sx={{ pt: 3 }}>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 

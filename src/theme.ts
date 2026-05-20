@@ -12,8 +12,8 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
   palette: {
     primary: {
-      extralight: '#ded3e6',
-      light: '#cfc0da',
+      extralight: '#e3d8ec',
+      light: '#d5c6df',
       main: '#9f78bc',
       dark: '#835ea0',
     },
@@ -36,6 +36,7 @@ const theme = createTheme({
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.extralight,
           color: theme.palette.action.active,
+          border: 'none',
         }),
       },
     },
@@ -67,6 +68,21 @@ const theme = createTheme({
           backgroundColor: theme.palette.primary.extralight,
           color: theme.palette.getContrastText(theme.palette.primary.extralight!),
         }),
+      },
+    },
+    MuiTooltip: {
+      defaultProps: {
+        disableInteractive: true,
+      },
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: '#efe9f4',
+          color: '#333333',
+          '.MuiTooltip-popper[data-popper-placement*="top"] &': { marginBottom: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="bottom"] &': { marginTop: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="left"] &': { marginRight: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="right"] &': { marginLeft: '1px' },
+        },
       },
     },
     MuiPaper: {

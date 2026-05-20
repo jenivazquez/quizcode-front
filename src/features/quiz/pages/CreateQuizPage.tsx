@@ -13,7 +13,7 @@ const CreateQuizPage = () => {
   const navigate = useNavigate()
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container maxWidth="md" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 

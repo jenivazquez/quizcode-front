@@ -45,7 +45,7 @@ const DetailQuizPage = () => {
 
   return (
 
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
 
       <ErrorAlert message={detailError} />
       <ErrorAlert message={stateError} />
@@ -68,12 +68,12 @@ const DetailQuizPage = () => {
             )}
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 1.5 }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1, py: 1.5 }}>
             <Typography variant="body1" >Estado:</Typography>
             <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" sx={sxStatusChip[quiz.status]}/>
           </Box>
 
-          <Box sx={{ flex: 1, display: 'flex', alignItems: 'stretch', justifyContent: 'flex-end'}}>
+          <Box sx={{ flex: { sm: 1 }, display: 'flex', alignItems: 'stretch', justifyContent: 'flex-end'}}>
             {isEditable && (
               <Box sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                 <Tooltip title="Modificar cuestionario">
@@ -99,6 +99,11 @@ const DetailQuizPage = () => {
           <Typography variant="h5">{quiz.title}</Typography>
 
           <Typography variant="body1" color="text.secondary">{quiz.description}</Typography>
+
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1 }}>
+            <Typography variant="body2" color="text.secondary" fontWeight={500}>Estado:</Typography>
+            <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" sx={sxStatusChip[quiz.status]}/>
+          </Box>
 
           {quiz.hasLimit && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

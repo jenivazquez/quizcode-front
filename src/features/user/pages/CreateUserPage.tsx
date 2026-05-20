@@ -20,7 +20,7 @@ const CreateUserPage = () => {
 
   return (
 
-    <Container maxWidth="md" sx={{ minHeight: 'calc(100vh - 64px)', display: 'flex', alignItems: 'center', py: 3}}>
+    <Container maxWidth="md" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
 
@@ -28,7 +28,7 @@ const CreateUserPage = () => {
           <Typography variant="h5">Crear cuenta</Typography>
         </Box>
 
-        <Box sx={{ p: 7, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ py: 4, px: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
           <ErrorAlert message={error} />
 

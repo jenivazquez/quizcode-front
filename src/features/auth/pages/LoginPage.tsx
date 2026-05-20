@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   return (
 
-    <Container maxWidth="sm" sx={{ minHeight: 'calc(100vh - 64px)', display: 'flex', alignItems: 'center', py: 3}}>
+    <Container maxWidth="sm" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
 
