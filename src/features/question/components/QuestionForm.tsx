@@ -61,11 +61,11 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
 
       <Box sx={{ p: 3, pt: 4 }}>
 
-        <ErrorAlert message={error} />
-
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
 
           <Grid container spacing={2}>
+
+            <ErrorAlert message={error} />
 
             <Grid size={8}>
               <Controller

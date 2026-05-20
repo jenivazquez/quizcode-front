@@ -6,7 +6,6 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { useState } from 'react'
-
 import { useNavigate } from 'react-router-dom'
 import { useListQuiz } from '../hooks/useListQuiz'
 import { useDeleteQuiz } from '../hooks/useDeleteQuiz'
@@ -14,7 +13,6 @@ import PageLoader from '../../../shared/components/PageLoader'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
 import ConfirmDialog from '../../../shared/components/ConfirmDialog'
 import { PATHS } from '../../../app/routes/paths'
-
 import { STATUS_LABEL, sxStatusChip } from '../constants/quizConstants'
 import Pagination from '../components/Pagination'
 
@@ -28,17 +26,11 @@ const ListQuizPage = () => {
 
   const navigate = useNavigate()
 
-  const handleDelete = async () => {
-    await remove(idQuizToDelete!)
-    refreshQuizzes()
-    setIdQuizToDelete(null)
-  }
-
   const rowsPerPage = 10
   const totalPages = Math.ceil(quizzes.length / rowsPerPage)
   const visibleQuizzes = quizzes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
-  if (loadingQuizzes) return <PageLoader />
+  if (loadingQuizzes && quizzes.length === 0) return <PageLoader />
   if (listError) return <ErrorAlert message={listError} />
 
   return (
@@ -153,7 +145,7 @@ const ListQuizPage = () => {
         title="Eliminar cuestionario"
         message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
-        onConfirm={handleDelete}
+        onConfirm={ async() => { await remove(idQuizToDelete!); refreshQuizzes(); setIdQuizToDelete(null) }}
         onClose={() => setIdQuizToDelete(null)}
       />
 

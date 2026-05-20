@@ -18,7 +18,7 @@ const LoginPage = () => {
           <Typography variant="h5" fontWeight={700}>Iniciar sesión</Typography>
         </Box>
 
-        <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+        <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
           <ErrorAlert message={error} />
 

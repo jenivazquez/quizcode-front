@@ -27,7 +27,7 @@ const DetailQuizPage = () => {
   const { id: quizId } = useParams<{ id: string }>()
   const { userId } = useAuth()
 
-  const { quiz, loading: loadingQuiz, error, refreshQuiz } = useDetailQuiz()
+  const { quiz, loading: loadingQuiz, error: detailError, refreshQuiz } = useDetailQuiz()
   const { publish, unpublish, loading: loadingState, error: stateError } = useStateQuiz()
   const { remove, loading: loadingDelete, error: deleteError } = useDeleteQuiz()
   const navigate = useNavigate()
@@ -36,8 +36,8 @@ const DetailQuizPage = () => {
   const [openDialogUnpublish, setOpenDialogUnpublish] = useState(false)
   const [openDialogDelete, setOpenDialogDelete] = useState(false)
 
-  if (loadingQuiz) return <PageLoader />
-  if (!quiz || !quizId || !userId) return <ErrorAlert message={error} />
+  if (loadingQuiz && !quiz) return <PageLoader />
+  if (!quiz || !quizId || !userId) return <ErrorAlert message={detailError} />
 
   const isEditable = quiz.status === QuizStatus.CREATED
   const isPublished = quiz.status === QuizStatus.PUBLISHED
@@ -46,6 +46,10 @@ const DetailQuizPage = () => {
   return (
 
     <Container maxWidth="lg" sx={{ py: 4 }}>
+
+      <ErrorAlert message={detailError} />
+      <ErrorAlert message={stateError} />
+      <ErrorAlert message={deleteError} />
 
       <Paper sx={{ borderRadius: 3, mb: 4, overflow: 'hidden' }}>
 
@@ -89,8 +93,7 @@ const DetailQuizPage = () => {
           </Box>
 
         </Box>
-
-
+        
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 5, py: 4, textAlign: 'center', gap: 3, backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           
           <Typography variant="h5">{quiz.title}</Typography>
@@ -111,10 +114,8 @@ const DetailQuizPage = () => {
 
         </Box>
 
-        <ErrorAlert message={error ?? stateError ?? deleteError} />
-
       </Paper>
-      
+
       <ListQuestionSection isEditable={isEditable} />
 
       <ConfirmDialog
@@ -140,7 +141,7 @@ const DetailQuizPage = () => {
         title="Eliminar cuestionario"
         message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
-        onConfirm={async () => { await remove(quizId!); navigate(PATHS.list) }}
+        onConfirm={async () => { await remove(quizId!); setOpenDialogDelete(false) }}
         onClose={() => setOpenDialogDelete(false)}
       />
 

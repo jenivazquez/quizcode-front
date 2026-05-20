@@ -38,9 +38,9 @@ const UpdateUserPage = () => {
 
       </Paper>
 
-      <ErrorAlert message={error} />
-
       <Paper sx={{ mt: 3, p: 5, borderRadius: 3 }}>
+
+        <ErrorAlert message={error} />
 
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
 

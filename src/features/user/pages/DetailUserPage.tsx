@@ -17,7 +17,7 @@ import InfoField from '../../../shared/components/InfoField'
 const DetailUserPage = () => {
 
   const { user, loading, error } = useDetailUser()
-  const { deactivate, loading: deactivating, error: deactivateError } = useDeactivateUser()
+  const { deactivate, loading: loadingDeactivate, error: deactivateError } = useDeactivateUser()
   const navigate = useNavigate()
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -54,8 +54,9 @@ const DetailUserPage = () => {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <ErrorAlert message={deactivateError} />
           </Box>
+          
+          <ErrorAlert message={deactivateError} />
 
         </Paper>
       </Container>
@@ -101,8 +102,8 @@ const DetailUserPage = () => {
         open={openDialog}
         title="¿Quieres desactivar tu cuenta?"
         message="Tu sesión se cerrará y perderás el acceso hasta que un administrador reactive tu cuenta."
-        loading={deactivating}
-        onConfirm={deactivate}
+        loading={loadingDeactivate}
+        onConfirm={ async() => {await deactivate(); setOpenDialog(false)} }
         onClose={() => setOpenDialog(false)}
       />
       

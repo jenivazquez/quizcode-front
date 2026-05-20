@@ -28,7 +28,7 @@ const CreateUserPage = () => {
           <Typography variant="h5">Crear cuenta</Typography>
         </Box>
 
-        <Box sx={{ p: 7, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+        <Box sx={{ p: 7, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
           <ErrorAlert message={error} />
 

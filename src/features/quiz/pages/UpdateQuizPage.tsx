@@ -28,11 +28,11 @@ const UpdateQuizPage = () => {
 
         <Box sx={{ p: 7 }}>
           
-          <ErrorAlert message={error} />
-
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
             
             <Grid container spacing={3}>
+
+              <ErrorAlert message={error} />
 
               <Grid size={12}>
                 <TextField
