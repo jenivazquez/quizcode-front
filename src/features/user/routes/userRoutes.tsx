@@ -13,7 +13,7 @@ export const userRoutes: RouteObject[] = [
     element: <ProtectedRoute />,
     children: [
       { path: paths.profile, element: <DetailUserPage /> },
-      { path: paths.profileEdit, element: <UpdateUserPage /> },
+      { path: paths.edit, element: <UpdateUserPage /> },
     ],
   },
 ]

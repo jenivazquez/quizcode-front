@@ -23,7 +23,7 @@ export const useCreateUser = () => {
     try {
       const { repeatPassword, ...userCreate } = data
       await createUser(userCreate)
-      navigate(PATHS.login)
+      navigate(PATHS.auth.login)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al crear el usuario'))
     } finally {

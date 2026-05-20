@@ -48,7 +48,7 @@ export const useUpdateUser = () => {
     setError(null)
     try {
       await updateUser(userId, buildUser(data))
-      navigate(PATHS.profile)
+      navigate(PATHS.user.profile)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al actualizar el perfil'))
     } finally {

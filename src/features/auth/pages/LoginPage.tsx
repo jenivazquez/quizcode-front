@@ -52,7 +52,7 @@ const LoginPage = () => {
 
           <Typography variant="body1" align="center" sx={{ mt: 3 }}>
             ¿No tienes cuenta?{' '}
-            <Link component={RouterLink} to={PATHS.register}>
+            <Link component={RouterLink} to={PATHS.user.register}>
               Regístrate
             </Link>
           </Typography>

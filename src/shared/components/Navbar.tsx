@@ -13,7 +13,7 @@ const Navbar = () => {
     <AppBar position="static">
       <Toolbar>
 
-        <Link component={RouterLink} to={PATHS.home} color="inherit" variant="h5" underline="none" sx={{ mr: 'auto', '&:hover': { opacity: 0.75 }, transition: 'opacity 0.2s' }}>
+        <Link component={RouterLink} to={PATHS.home.root} color="inherit" variant="h5" underline="none" sx={{ mr: 'auto', '&:hover': { opacity: 0.75 }, transition: 'opacity 0.2s' }}>
           QuizCode
         </Link>
 

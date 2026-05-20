@@ -115,7 +115,7 @@ const UpdateUserPage = () => {
           </Grid>
 
           <Box sx={{ mt: 10, display: 'flex', justifyContent: 'center', gap: 2 }}>
-            <Button component={RouterLink} to={PATHS.profile} variant="outlined" size="large" disabled={loadingEdit}>Cancelar</Button>
+            <Button component={RouterLink} to={PATHS.user.profile} variant="outlined" size="large" disabled={loadingEdit}>Cancelar</Button>
             <Button type="submit" variant="contained" size="large" disabled={loadingEdit || !isDirty}>Guardar cambios</Button>
           </Box>
 

@@ -1,5 +1,5 @@
 export const USER_PATHS = {
   register: '/register',
   profile: '/profile',
-  profileEdit: '/profile/edit',
+  edit: '/profile/edit',
 } as const

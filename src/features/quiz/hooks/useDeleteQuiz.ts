@@ -18,7 +18,7 @@ export const useDeleteQuiz = () => {
     setError(null)
     try {
       await deleteQuiz(userId, quizId)
-      navigate(PATHS.list)
+      navigate(PATHS.quiz.list)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al eliminar el cuestionario'))
     } finally {

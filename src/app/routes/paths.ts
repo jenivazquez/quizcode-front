@@ -4,8 +4,8 @@ import { USER_PATHS } from '../../features/user/routes/userPaths'
 import { QUIZ_PATHS } from '../../features/quiz/routes/quizPaths'
 
 export const PATHS = {
-  ...HOME_PATHS,
-  ...AUTH_PATHS,
-  ...USER_PATHS,
-  ...QUIZ_PATHS,
+  home: HOME_PATHS,
+  auth: AUTH_PATHS,
+  user: USER_PATHS,
+  quiz: QUIZ_PATHS,
 } as const

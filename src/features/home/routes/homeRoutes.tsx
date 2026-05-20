@@ -5,5 +5,5 @@ import { HOME_PATHS as paths } from './homePaths'
 const HomePage = lazy(() => import('../pages/HomePage'))
 
 export const homeRoutes: RouteObject[] = [
-  { path: paths.home, element: <HomePage /> },
+  { path: paths.root, element: <HomePage /> },
 ]

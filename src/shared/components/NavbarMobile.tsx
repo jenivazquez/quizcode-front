@@ -25,7 +25,7 @@ const NavbarMobile = () => {
           <MenuIcon />
         </IconButton>
       ) : (
-        <IconButton component={RouterLink} to={PATHS.login} color="inherit" sx={{ display: { xs: 'flex', sm: 'none' } }}>
+        <IconButton component={RouterLink} to={PATHS.auth.login} color="inherit" sx={{ display: { xs: 'flex', sm: 'none' } }}>
           <LoginIcon />
         </IconButton>
       )}
@@ -51,21 +51,21 @@ const NavbarMobile = () => {
           <Divider sx={{ my: 1, mx: 2 }} />
 
           <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to={PATHS.profile} onClick={close}>
+            <ListItemButton component={RouterLink} to={PATHS.user.profile} onClick={close}>
               <ListItemIcon><ManageAccountsIcon fontSize="small" /></ListItemIcon>
               <ListItemText primary="Mi perfil" />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to={PATHS.list} onClick={close}>
+            <ListItemButton component={RouterLink} to={PATHS.quiz.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               <ListItemText primary="Mis cuestionarios" />
             </ListItemButton>
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to={PATHS.list} onClick={close}>
+            <ListItemButton component={RouterLink} to={PATHS.quiz.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               <ListItemText primary="Mis salas" />
             </ListItemButton>

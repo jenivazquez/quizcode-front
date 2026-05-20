@@ -45,7 +45,7 @@ const DetailUserPage = () => {
 
           <Box sx={{ p: 3, display: 'flex', justifyContent: 'center', gap: 2 }}>
             <Tooltip title="Editar perfil">
-              <IconButton color="primary" onClick={() => navigate(PATHS.profileEdit)} sx={{ border: '1px solid', borderColor: 'primary.light', bgcolor: 'background.paper', '&:hover': { bgcolor: 'grey.100' } }}>
+              <IconButton color="primary" onClick={() => navigate(PATHS.user.edit)} sx={{ border: '1px solid', borderColor: 'primary.light', bgcolor: 'background.paper', '&:hover': { bgcolor: 'grey.100' } }}>
                 <EditIcon />
               </IconButton>
             </Tooltip>

@@ -79,7 +79,7 @@ const ListQuizPage = () => {
           <ErrorAlert message={deleteError} />
 
           <Box sx={{ mt: 4, mb: 1 }}>
-            <Button startIcon={<AddIcon />} onClick={() => navigate(PATHS.create)}>
+            <Button startIcon={<AddIcon />} onClick={() => navigate(PATHS.quiz.create)}>
                   Nuevo cuestionario
             </Button>
           </Box>
@@ -111,7 +111,7 @@ const ListQuizPage = () => {
 
                 {visibleQuizzes.map((quiz) => {
                   return (
-                    <TableRow key={quiz.id} hover onClick={() => navigate(PATHS.edit(quiz.id))} sx={{ cursor: 'pointer' }}>
+                    <TableRow key={quiz.id} hover onClick={() => navigate(PATHS.quiz.detail(quiz.id))} sx={{ cursor: 'pointer' }}>
 
                       <TableCell>{quiz.title}</TableCell>
 
@@ -137,7 +137,7 @@ const ListQuizPage = () => {
 
                           <Box sx={{ flex: 1, borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                             <Tooltip title="Modificar cuestionario">
-                              <IconButton size="small" onClick={() => navigate(PATHS.update(quiz.id))} sx={{ borderRadius: 0, color: 'primary.main', width: '100%', height: '100%' }}>
+                              <IconButton size="small" onClick={() => navigate(PATHS.quiz.edit(quiz.id))} sx={{ borderRadius: 0, color: 'primary.main', width: '100%', height: '100%' }}>
                                 <EditIcon fontSize="small" />
                               </IconButton>
                             </Tooltip>

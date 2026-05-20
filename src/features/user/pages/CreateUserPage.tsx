@@ -60,7 +60,7 @@ const CreateUserPage = () => {
 
           <Typography variant="body1" align="center" sx={{ mt: 4 }}>
             ¿Ya tienes cuenta?{' '}
-            <Link component={RouterLink} to={PATHS.login}>
+            <Link component={RouterLink} to={PATHS.auth.login}>
               Inicia sesión
             </Link>
           </Typography>

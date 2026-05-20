@@ -77,7 +77,7 @@ const DetailQuizPage = () => {
             {isEditable && (
               <Box sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                 <Tooltip title="Modificar cuestionario">
-                  <IconButton onClick={() => navigate(PATHS.update(quizId!))} sx={{ borderRadius: 0, color: 'primary.main', px: 2 }}>
+                  <IconButton onClick={() => navigate(PATHS.quiz.edit(quizId!))} sx={{ borderRadius: 0, color: 'primary.main', px: 2 }}>
                     <EditIcon fontSize="medium" />
                   </IconButton>
                 </Tooltip>

@@ -14,7 +14,7 @@ privateApi.interceptors.request.use((config) => {
 
   if (!token || !validUntil || new Date(validUntil) <= new Date()) {
     clearSessionStorage()
-    router.navigate(PATHS.home)
+    router.navigate(PATHS.home.root)
     return Promise.reject('Token expirado')
   }
 
@@ -27,7 +27,7 @@ privateApi.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       clearSessionStorage()
-      router.navigate(PATHS.home)
+      router.navigate(PATHS.home.root)
     }
     return Promise.reject(error)
   }

@@ -76,7 +76,7 @@ const CreateQuizPage = () => {
               )}
 
               <Grid size={12} sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-                <Button variant="outlined" onClick={() => navigate(PATHS.list)} disabled={loading}>Cancelar</Button>
+                <Button variant="outlined" onClick={() => navigate(PATHS.quiz.list)} disabled={loading}>Cancelar</Button>
                 <Button type="submit" variant="contained" disabled={loading}>Crear cuestionario</Button>
               </Grid>
 

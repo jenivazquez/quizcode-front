@@ -49,17 +49,17 @@ const NavbarDesktop = () => {
 
             <Divider sx= {{mb: 1}}/>
             
-            <MenuItem component={RouterLink} to={PATHS.profile} onClick={close}>
+            <MenuItem component={RouterLink} to={PATHS.user.profile} onClick={close}>
               <ListItemIcon><ManageAccountsIcon fontSize="small" /></ListItemIcon>
               Mi perfil
             </MenuItem>
 
-            <MenuItem component={RouterLink} to={PATHS.list} onClick={close}>
+            <MenuItem component={RouterLink} to={PATHS.quiz.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               Mis cuestionarios
             </MenuItem>
             
-            <MenuItem component={RouterLink} to={PATHS.list} onClick={close}>
+            <MenuItem component={RouterLink} to={PATHS.quiz.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               Mis salas
             </MenuItem>
@@ -77,7 +77,7 @@ const NavbarDesktop = () => {
 
       ) : (
 
-        <Button component={RouterLink} to={PATHS.login} color="inherit" startIcon={<LoginIcon fontSize="large" />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}>
+        <Button component={RouterLink} to={PATHS.auth.login} color="inherit" startIcon={<LoginIcon fontSize="large" />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}>
           Acceder
         </Button>
 

@@ -18,7 +18,7 @@ export const useDeactivateUser = () => {
     try {
       await deactivateUser(userId)
       clearSession()
-      navigate(PATHS.login)
+      navigate(PATHS.auth.login)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al desactivar la cuenta'))
     } finally {

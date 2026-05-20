@@ -14,8 +14,8 @@ export const quizRoutes: RouteObject[] = [
     children: [
       { path: QUIZ_PATHS.list, element: <QuizListPage /> },
       { path: QUIZ_PATHS.create, element: <CreateQuizPage /> },
-      { path: QUIZ_PATHS.edit(':id'), element: <DetailQuizPage /> },
-      { path: QUIZ_PATHS.update(':id'), element: <UpdateQuizPage /> },
+      { path: QUIZ_PATHS.detail(':id'), element: <DetailQuizPage /> },
+      { path: QUIZ_PATHS.edit(':id'), element: <UpdateQuizPage /> },
     ],
   },
 ]
