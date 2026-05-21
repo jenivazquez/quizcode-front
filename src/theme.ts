@@ -1,11 +1,13 @@
-import { createTheme, alpha } from '@mui/material/styles'
+import { createTheme } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
   interface PaletteColor {
     extralight?: string
+    medium?: string
   }
   interface SimplePaletteColorOptions {
     extralight?: string
+    medium?: string
   }
 }
 
@@ -13,7 +15,8 @@ const theme = createTheme({
   palette: {
     primary: {
       extralight: '#e3d8ec',
-      light: '#d5c6df',
+      light: '#d1c2dc',
+      medium: '#b199c0',
       main: '#9f78bc',
       dark: '#835ea0',
     },
@@ -21,7 +24,7 @@ const theme = createTheme({
     success: { main: '#bae0bd' },
     error: { main: '#c96b6b' }, //c96b6b
     background: {
-      default: '#fdfdff', // #fbfbfb
+      default: '#faf5f32a', // #fdfdff
       paper: '#ffffff',
     },
   },
@@ -37,6 +40,9 @@ const theme = createTheme({
           backgroundColor: theme.palette.primary.extralight,
           color: theme.palette.action.active,
           border: 'none',
+          '& a, & .MuiLink-root, & .MuiButton-root': { transition: 'transform 0.2s' },
+          '& a:hover, & .MuiLink-root:hover, & .MuiButton-root:hover': { transform: 'scale(1.10)' },
+          '& .MuiButton-root:hover': { backgroundColor: 'transparent' },
         }),
       },
     },
@@ -54,11 +60,10 @@ const theme = createTheme({
     MuiAvatar: {
       styleOverrides: {
         root: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.primary.main, 0.55),
-          outlineWidth: '3px',
-          outlineStyle: 'solid',
-          outlineColor: alpha(theme.palette.primary.main, 0.55),
-          outlineOffset: '4px',
+          background: theme.palette.primary.light,
+          color: theme.palette.primary.dark,
+          outline: 'none',
+          fontWeight: 700
         }),
       },
     },

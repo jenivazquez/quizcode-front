@@ -38,7 +38,7 @@ const NavbarMobile = () => {
         <List sx={{ width: 250, pt: 2 }} disablePadding>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 2, pb: 2, pt: 1 }}>
-            <Avatar sx={{ width: 36, height: 36, fontSize: 16, outlineWidth: '2px', outlineOffset: '2px' }}>
+            <Avatar sx={{ width: 36, height: 36, fontSize: 16, boxShadow: (t) => `0 0 0 2px ${t.palette.primary.extralight}, 0 0 0 4px ${t.palette.primary.light}` }}>
               {user?.name.charAt(0).toUpperCase()}
             </Avatar>
             <Box>

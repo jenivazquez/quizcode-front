@@ -27,7 +27,7 @@ const NavbarDesktop = () => {
         <>
           <Tooltip title="Menú">
             <Link component="button" onClick={(e) => setAnchor(e.currentTarget)} underline="none" sx={{ display: 'flex', alignItems: 'center', mx: 2 }}>
-              <Avatar sx={{ width: 38, height: 38, fontSize: 20, outlineWidth: '2px', outlineOffset: '2px' }}>
+              <Avatar sx={{ width: 38, height: 38, fontSize: 20, boxShadow: (t) => `0 0 0 3px ${t.palette.primary.extralight}, 0 0 0 5px ${t.palette.primary.medium}` }}>
                 {user?.name.charAt(0).toUpperCase()}
               </Avatar>
             </Link>
@@ -36,7 +36,7 @@ const NavbarDesktop = () => {
           <Menu anchorEl={anchor} open={!!anchor} onClose={close}>
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 2, pb: 2, pt: 1  }}>
-              <Avatar sx={{ width: 36, height: 36, fontSize: 20, outlineWidth: '2px', outlineOffset: '2px' }}>
+              <Avatar sx={{ width: 36, height: 36, fontSize: 20, boxShadow: (t) => `0 0 0 3px ${t.palette.primary.extralight}, 0 0 0 5px ${t.palette.primary.medium}` }}>
                 {user?.name.charAt(0).toUpperCase()}
               </Avatar>
               <Box>
