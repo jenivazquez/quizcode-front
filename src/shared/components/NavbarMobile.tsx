@@ -68,7 +68,7 @@ const NavbarMobile = () => {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton component={RouterLink} to={PATHS.quiz.list} onClick={close}>
+            <ListItemButton component={RouterLink} to={PATHS.room.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               <ListItemText primary="Mis salas" />
             </ListItemButton>

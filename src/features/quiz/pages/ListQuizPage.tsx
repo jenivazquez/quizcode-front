@@ -15,7 +15,7 @@ import ErrorAlert from '../../../shared/components/ErrorAlert'
 import ConfirmDialog from '../../../shared/components/ConfirmDialog'
 import { PATHS } from '../../../app/routes/paths'
 import { STATUS_LABEL, sxStatusChip } from '../constants/quizConstants'
-import type { QuizDetail } from '../types/quiz'
+import { QuizStatus, type QuizDetail } from '../types/quiz'
 import Pagination from '../components/Pagination'
 
 type SortField = 'Título' | 'Descripción' | 'Estado' | 'Duración' | 'Fecha'
@@ -109,32 +109,32 @@ const ListQuizPage = () => {
                   </TableRow>
                 )}
 
-                {visibleQuizzes.map((quiz) => {
-                  return (
-                    <TableRow key={quiz.id} hover onClick={() => navigate(PATHS.quiz.detail(quiz.id))} sx={{ cursor: 'pointer' }}>
+                {visibleQuizzes.map((quiz) => (
+                  <TableRow key={quiz.id} hover onClick={() => navigate(PATHS.quiz.detail(quiz.id))} sx={{ cursor: 'pointer' }}>
 
-                      <TableCell>{quiz.title}</TableCell>
+                    <TableCell sx={{ maxWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{quiz.title}</TableCell>
 
-                      <TableCell sx={{ maxWidth: 300, display: { xs: 'none', lg: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {quiz.description}
-                      </TableCell>
+                    <TableCell sx={{ maxWidth: 300, display: { xs: 'none', lg: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {quiz.description}
+                    </TableCell>
 
-                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                        <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" size="small" sx={sxStatusChip[quiz.status]}/>
-                      </TableCell>
+                    <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" size="small" sx={sxStatusChip[quiz.status]} />
+                    </TableCell>
 
-                      <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' }, color: 'text.secondary' }}>
-                        {quiz.hasLimit ? `${quiz.limitMinutes} min` : '—'}
-                      </TableCell>
+                    <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' }, color: 'text.secondary' }}>
+                      {quiz.hasLimit ? `${quiz.limitMinutes} min` : '—'}
+                    </TableCell>
 
-                      <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }, color: 'text.secondary' }}>
-                        {new Date(quiz.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </TableCell>
+                    <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' }, color: 'text.secondary' }}>
+                      {new Date(quiz.createdAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </TableCell>
 
-                      <TableCell sx={{ p: 0, height: '1px' }} onClick={(e) => e.stopPropagation()}>
+                    <TableCell sx={{ p: 0, height: '1px' }} onClick={(e) => e.stopPropagation()}>
 
-                        <Box sx={{ display: 'flex', height: '100%' }}>
+                      <Box sx={{ display: 'flex', height: '100%' }}>
 
+                        {quiz.status === QuizStatus.CREATED ? (
                           <Box sx={{ flex: 1, borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                             <Tooltip title="Modificar cuestionario">
                               <IconButton size="small" onClick={() => navigate(PATHS.quiz.edit(quiz.id))} sx={{ borderRadius: 0, color: 'primary.main', width: '100%', height: '100%' }}>
@@ -142,22 +142,24 @@ const ListQuizPage = () => {
                               </IconButton>
                             </Tooltip>
                           </Box>
+                        ) : (
+                          <Box sx={{ flex: 1, borderLeft: '1px solid', borderColor: 'divider' }} />
+                        )}
 
-                          <Box sx={{ flex: 1, borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
-                            <Tooltip title="Eliminar cuestionario">
-                              <IconButton size="small" color="error" onClick={() => setIdQuizToDelete(quiz.id)} sx={{ borderRadius: 0, width: '100%', height: '100%' }}>
-                                <DeleteIcon fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </Box>
-
+                        <Box sx={{ flex: 1, borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
+                          <Tooltip title="Eliminar cuestionario">
+                            <IconButton size="small" color="error" onClick={() => setIdQuizToDelete(quiz.id)} sx={{ borderRadius: 0, width: '100%', height: '100%' }}>
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Tooltip>
                         </Box>
 
-                      </TableCell>
-                          
-                    </TableRow>
-                  )
-                })}
+                      </Box>
+
+                    </TableCell>
+
+                  </TableRow>
+                ))}
               </TableBody>
 
             </Table>
@@ -173,7 +175,7 @@ const ListQuizPage = () => {
       <ConfirmDialog
         open={!!idQuizToDelete}
         title="Eliminar cuestionario"
-        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
+        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas, salas asociadas y las respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
         onConfirm={ async() => { await remove(idQuizToDelete!); refreshQuizzes(); setIdQuizToDelete(null) }}
         onClose={() => setIdQuizToDelete(null)}

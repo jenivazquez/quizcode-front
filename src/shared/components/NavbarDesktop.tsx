@@ -61,7 +61,7 @@ const NavbarDesktop = () => {
               Mis cuestionarios
             </MenuItem>
             
-            <MenuItem component={RouterLink} to={PATHS.quiz.list} onClick={close}>
+            <MenuItem component={RouterLink} to={PATHS.room.list} onClick={close}>
               <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
               Mis salas
             </MenuItem>

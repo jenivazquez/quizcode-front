@@ -6,6 +6,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import PublishIcon from '@mui/icons-material/Publish'
 import UndoIcon from '@mui/icons-material/Undo'
 import { useState } from 'react'
@@ -41,6 +42,8 @@ const DetailQuizPage = () => {
 
   const isEditable = quiz.status === QuizStatus.CREATED
   const isPublished = quiz.status === QuizStatus.PUBLISHED
+  const isLocked = quiz.status === QuizStatus.LOCKED
+  
   const createdAt = new Date(quiz.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
 
   return (
@@ -61,10 +64,14 @@ const DetailQuizPage = () => {
                 Publicar cuestionario
               </Button>
             )}
-            {isPublished && (
-              <Button onClick={() => setOpenDialogUnpublish(true)} disabled={loadingState} startIcon={<UndoIcon/>} sx={{ borderRadius: 0, color: 'error.main', px: 2.5, borderRight: '1px solid', borderColor: 'divider' }}>
-                Despublicar cuestionario
-              </Button>
+            {(isPublished || isLocked) && (
+              <Tooltip title={isLocked ? 'No se puede despublicar un cuestionaro con salas' : ''}>
+                <span style={{ display: 'flex', alignSelf: 'stretch' }}>
+                  <Button onClick={() => setOpenDialogUnpublish(true)} disabled={loadingState || isLocked} startIcon={<UndoIcon/>} sx={{ borderRadius: 0, color: 'error.main', px: 2.5, borderRight: '1px solid', borderColor: 'divider' }}>
+                    Despublicar cuestionario
+                  </Button>
+                </span>
+              </Tooltip>
             )}
           </Box>
 
@@ -119,6 +126,24 @@ const DetailQuizPage = () => {
 
         </Box>
 
+        {!isEditable && (
+          <Box
+            onClick={() => navigate(PATHS.room.listByQuiz(quizId!))}
+            sx={{
+              display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+              bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider',
+              px: 3, py: 1.5, cursor: 'pointer',
+              '&:hover .nav-label': { textDecoration: 'underline' },
+              '&:hover .nav-arrow': { transform: 'translateX(3px)' },
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography className="nav-label" variant="body2" fontWeight={500} color="primary">Lista de salas del cuestionario</Typography>
+              <ChevronRightIcon className="nav-arrow" fontSize="small" color="primary" sx={{ transition: 'transform 0.15s' }} />
+            </Box>
+          </Box>
+        )}
+
       </Paper>
 
       <ListQuestionSection isEditable={isEditable} />
@@ -144,7 +169,7 @@ const DetailQuizPage = () => {
       <ConfirmDialog
         open={openDialogDelete}
         title="Eliminar cuestionario"
-        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
+        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas, salas asociadas y las respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
         onConfirm={async () => { await remove(quizId!); setOpenDialogDelete(false) }}
         onClose={() => setOpenDialogDelete(false)}

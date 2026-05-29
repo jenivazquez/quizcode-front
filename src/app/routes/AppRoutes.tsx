@@ -4,6 +4,7 @@ import { authRoutes } from '../../features/auth/routes/authRoutes'
 import { userRoutes } from '../../features/user/routes/userRoutes'
 import { homeRoutes } from '../../features/home/routes/homeRoutes'
 import { quizRoutes } from '../../features/quiz/routes/quizRoutes'
+import { roomRoutes } from '../../features/room/routes/roomRoutes'
 
 export const appRoutes: RouteObject[] = [
   {
@@ -13,6 +14,7 @@ export const appRoutes: RouteObject[] = [
       ...authRoutes,
       ...userRoutes,
       ...quizRoutes,
+      ...roomRoutes,
     ],
   },
 ]

@@ -1,6 +1,6 @@
 import {
   Box, TextField, Grid, Paper, Typography,
-  FormControl, InputLabel, Select, MenuItem,
+  FormControl, FormHelperText, InputLabel, Select, MenuItem,
   IconButton, Tooltip, Button,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -84,6 +84,7 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
                         <MenuItem key={type} value={type}> {QUESTION_TYPE_LABELS[type]} </MenuItem>
                       ))}
                     </Select>
+                    {errors.type && <FormHelperText>{errors.type.message}</FormHelperText>}
                   </FormControl>
                 )}
               />
