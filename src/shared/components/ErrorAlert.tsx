@@ -15,7 +15,7 @@ const ErrorAlert = ({ message, severity = 'error' }: ErrorAlertProps) => {
 
   if (closed || !message) return null
   return (
-    <Alert severity={severity} sx={{ mb: 2, width: '100%' }} onClose={() => setClosed(true)}>
+    <Alert severity={severity} sx={{ width: '100%' }} onClose={() => setClosed(true)}>
       {message}
     </Alert>
   )

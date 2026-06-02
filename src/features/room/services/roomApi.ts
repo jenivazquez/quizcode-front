@@ -1,6 +1,7 @@
 import { privateApi } from '../../../shared/api/privateApi'
-import type { CreateRoomResponse, QuizRoomResponse } from './roomResponse'
-import type { RoomCreate, RoomUpdate, QuizRoomDetail } from '../types/room'
+import { publicApi } from '../../../shared/api/publicApi'
+import type { CreateRoomResponse, QuizRoomResponse, RoomResponse } from './roomResponse'
+import type { RoomCreate, RoomUpdate, QuizRoomDetail, RoomDetail } from '../types/room'
 
 export async function createRoom(ownerId: string, quizId: string, room: RoomCreate): Promise<string> {
   const response = await privateApi.post<CreateRoomResponse>(`/user/${ownerId}/quiz/${quizId}/room`, room)
@@ -36,4 +37,9 @@ export async function deleteRoom(ownerId: string, quizId: string, roomId: string
 
 export async function markRoomAsReviewed(ownerId: string, quizId: string, roomId: string): Promise<void> {
   await privateApi.patch(`/user/${ownerId}/quiz/${quizId}/room/${roomId}/reviewed`, { reviewed: true })
+}
+
+export async function findRoomByCode(code: string): Promise<RoomDetail> {
+  const response = await publicApi.get<RoomResponse>(`/room/code/${code}`)
+  return response.data
 }

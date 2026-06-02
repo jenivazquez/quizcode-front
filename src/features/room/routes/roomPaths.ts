@@ -1,4 +1,5 @@
 export const ROOM_PATHS = {
+  join:           '/rooms/join',
   list:           '/rooms',
   listByQuiz:     (quizId: string) => `/quizzes/${quizId}/rooms`,
   create:         '/rooms/new',

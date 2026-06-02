@@ -1,6 +1,7 @@
 import { Box, Tooltip, Link, Menu, MenuItem, Divider, ListItemIcon, Avatar, Typography, Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import { Link as RouterLink } from 'react-router-dom'
@@ -22,6 +23,10 @@ const NavbarDesktop = () => {
   return (
 
     <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center' }}>
+
+      <Button component={RouterLink} to={PATHS.room.join} color="inherit" startIcon={<MeetingRoomIcon />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}>
+        Unirse a sala
+      </Button>
 
       {isAuth ? (
         <>

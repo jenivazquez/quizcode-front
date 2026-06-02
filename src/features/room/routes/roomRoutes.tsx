@@ -3,13 +3,15 @@ import type { RouteObject } from 'react-router-dom'
 import ProtectedRoute from '../../../app/routes/ProtectedRoute'
 import { ROOM_PATHS } from './roomPaths'
 
+const JoinRoomPage        = lazy(() => import('../pages/JoinRoomPage'))
 const ListRoomPage        = lazy(() => import('../pages/ListRoomPage'))
-const ListQuizRoomPage  = lazy(() => import('../pages/ListQuizRoomPage'))
+const ListQuizRoomPage    = lazy(() => import('../pages/ListQuizRoomPage'))
 const CreateRoomPage      = lazy(() => import('../pages/CreateRoomPage'))
 const DetailRoomPage      = lazy(() => import('../pages/DetailRoomPage'))
 const UpdateRoomPage      = lazy(() => import('../pages/UpdateRoomPage'))
 
 export const roomRoutes: RouteObject[] = [
+  { path: ROOM_PATHS.join, element: <JoinRoomPage /> },
   {
     element: <ProtectedRoute />,
     children: [
