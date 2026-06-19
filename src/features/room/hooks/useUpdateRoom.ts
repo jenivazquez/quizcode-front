@@ -9,12 +9,10 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { useDetailRoom } from './useDetailRoom'
 import type { RoomUpdate } from '../types/room'
 
-function buildRoom(data: UpdateRoomFormData): RoomUpdate {
-  return {
-    name: data.name, 
-    description: data.description
-  }
-}
+const buildRoom = (data: UpdateRoomFormData): RoomUpdate => ({
+  name: data.name, 
+  description: data.description
+})
 
 export const useUpdateRoom = () => {
 

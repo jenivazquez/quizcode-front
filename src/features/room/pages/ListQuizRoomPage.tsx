@@ -15,7 +15,7 @@ const ListQuizRoomPage = () => {
 
   const navigate = useNavigate()
 
-  if (loading && rooms.length === 0) return <PageLoader />
+  if (loading) return <PageLoader />
   if (listError) return <ErrorAlert message={listError} />
 
   return (

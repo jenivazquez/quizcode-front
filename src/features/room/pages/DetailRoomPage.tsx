@@ -37,7 +37,7 @@ const DetailRoomPage = () => {
   const [openDialogReview, setOpenDialogReview] = useState(false)
   const [openDialogDelete, setOpenDialogDelete] = useState(false)
 
-  if (loading && !room) return <PageLoader />
+  if (loading) return <PageLoader />
   if (!room || !quizId || !roomId) return <ErrorAlert message={error} />
 
   const isCreated = room.status === RoomStatus.CREATED

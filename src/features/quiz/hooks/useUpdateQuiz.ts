@@ -9,14 +9,12 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { useDetailQuiz } from './useDetailQuiz'
 import type { QuizUpdate } from '../types/quiz'
 
-function buildQuiz(data: QuizFormData): QuizUpdate {
-  return {
-    title: data.title,
-    description: data.description,
-    hasLimit: data.hasLimit,
-    limitMinutes: data.hasLimit ? (data.limitMinutes || null) : null,
-  }
-}
+const buildQuiz = (data: QuizFormData): QuizUpdate => ({
+  title: data.title,
+  description: data.description,
+  hasLimit: data.hasLimit,
+  limitMinutes: data.hasLimit ? (data.limitMinutes || null) : null,
+})
 
 export const useUpdateQuiz = () => {
 

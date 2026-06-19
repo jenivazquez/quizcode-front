@@ -10,12 +10,10 @@ import { PATHS } from '../../../app/routes/paths'
 import type { LoginPartFormData } from '../schemas/loginPartSchema'
 import type { PartLogin } from '../types/participation'
 
-function buildPart(data: LoginPartFormData): PartLogin {
-  return {
-    username: data.username,
-    password: data.password,
-  }
-}
+const buildPart = (data: LoginPartFormData): PartLogin => ({
+  username: data.username,
+  password: data.password,
+})
 
 export const useLoginPart = () => {
 

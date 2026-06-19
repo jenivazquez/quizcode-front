@@ -25,7 +25,7 @@ export const useJoinRoom = () => {
     try {
       const room = await findRoomByCode(codeUpperCase)
       navigate(PATHS.part.create(room.id))
-    } catch (err: unknown) {
+    } catch (err) {
       setError(getErrorMessage(err, 'No existe ninguna sala con ese código'))
     } finally {
       setLoading(false)

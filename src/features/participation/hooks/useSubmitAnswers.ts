@@ -7,13 +7,11 @@ import { QuestionType } from '../../question/types/question'
 import type { QuestionDetail } from '../../question/types/question'
 import type { AnswerSubmit } from '../types/participation'
 
-function buildEmptyAnswer(question: QuestionDetail): AnswerSubmit {
-  return {
-    questionId: question.id,
-    codeOptions: question.type === QuestionType.EDIT_CODE ? null : [],
-    writtenAnswer: question.type === QuestionType.EDIT_CODE ? question.baseCode ?? '' : null,
-  }
-}
+const buildEmptyAnswer = (question: QuestionDetail): AnswerSubmit => ({
+  questionId: question.id,
+  codeOptions: question.type === QuestionType.EDIT_CODE ? null : [],
+  writtenAnswer: question.type === QuestionType.EDIT_CODE ? question.baseCode ?? '' : null,
+})
 
 export const useSubmitAnswers = (questions: QuestionDetail[]) => {
 
@@ -43,14 +41,14 @@ export const useSubmitAnswers = (questions: QuestionDetail[]) => {
     })
   }
 
-  const onSubmit = async () => {
+  const onSubmit = async (redirect = true) => {
     if (!roomId || !partId) return
     setLoading(true)
     setError(null)
     try {
       await submitAnswers(roomId, partId, Object.values(answers))
-      navigate(PATHS.part.ranking(roomId, partId))
-    } catch (err: unknown) {
+      if (redirect) navigate(PATHS.part.ranking(roomId, partId))
+    } catch (err) {
       setError(getErrorMessage(err, 'Error al enviar las respuestas'))
       setLoading(false)
     }

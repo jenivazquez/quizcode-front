@@ -9,12 +9,10 @@ import { PATHS } from '../../../app/routes/paths'
 import type { CreatePartFormData } from '../schemas/createPartSchema'
 import type { PartCreate } from '../types/participation'
 
-function buildPart(data: CreatePartFormData): PartCreate {
-  return {
-    username: data.username,
-    password: data.password,
-  }
-}
+const buildPart = (data: CreatePartFormData): PartCreate => ({
+  username: data.username,
+  password: data.password,
+})
 
 export const useCreatePart = () => {
 
@@ -35,7 +33,7 @@ export const useCreatePart = () => {
     try {
       const partId = await createPart(roomId, buildPart(data))
       navigate(PATHS.part.answerQuiz(roomId, partId))
-    } catch (err: unknown) {
+    } catch (err) {
       setError(getErrorMessage(err, 'Error al registrarse en la sala'))
     } finally {
       setLoading(false)

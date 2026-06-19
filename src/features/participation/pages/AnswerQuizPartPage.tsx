@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Box, Typography, Paper, Container, Chip, Button,
   RadioGroup, FormControlLabel, Radio, Checkbox,
@@ -16,18 +17,22 @@ import { useDetailQuizToAnswer } from '../../quiz/hooks/useDetailQuizToAnswer'
 import { useListQuestionsToAnswer } from '../../question/hooks/useListQuestionsToAnswer'
 import { useSubmitAnswers } from '../hooks/useSubmitAnswers'
 import { formatTime } from '../utils/formatTime'
-import { useTimerQuiz } from '../hooks/useTimerQuiz'
+import { useTimerPart } from '../hooks/useTimerPart'
 import { QuestionType } from '../../question/types/question'
+import { PATHS } from '../../../app/routes/paths'
 import type { QuestionDetail } from '../../question/types/question'
 
 const AnswerQuizPartPage = () => {
+
+  const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
+  const navigate = useNavigate()
 
   const { room, loading: loadingRoom, error: detailRoomError } = useDetailRoomToAnswer()
   const { quiz, loading: loadingQuiz, error: detailQuizError } = useDetailQuizToAnswer(room?.quizId)
   const { questions, loading: loadingQuestions, error: listQuestionError } = useListQuestionsToAnswer(room?.quizId)
   const { answers, handleAnswer, onSubmit, loading, error } = useSubmitAnswers(questions)
 
-  const { timeLeft } = useTimerQuiz({ quiz, onExpire: () => { setOpenExpiredDialog(true); onSubmit() } })
+  const { timeLeft } = useTimerPart({ quiz, onExpire: () => { setOpenExpiredDialog(true); onSubmit(false) } })
 
   const [openSubmitConfirm, setOpenSubmitConfirm] = useState(false)
   const [openExpiredDialog, setOpenExpiredDialog] = useState(false)
@@ -173,7 +178,7 @@ const AnswerQuizPartPage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center', gap: 1 }}>
-          <Button variant='contained' size='large' onClick={() => setOpenExpiredDialog(false)}>Aceptar</Button>
+          <Button variant='contained' size='large' onClick={() => navigate(PATHS.part.ranking(roomId!, partId!))}>Aceptar</Button>
         </DialogActions>
       </Dialog>
 

@@ -10,14 +10,12 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { useDetailUser } from './useDetailUser'
 import { PATHS } from '../../../app/routes/paths'
 
-function buildUser(data: UpdateUserFormData): UserUpdate {
-  return {
-    name: data.name,
-    surname1: data.surname1,
-    surname2: data.surname2,
-    password: data.password || undefined,
-  }
-}
+const buildUser = (data: UpdateUserFormData): UserUpdate => ({
+  name: data.name,
+  surname1: data.surname1,
+  surname2: data.surname2,
+  password: data.password || undefined,
+})
 
 export const useUpdateUser = () => {
 

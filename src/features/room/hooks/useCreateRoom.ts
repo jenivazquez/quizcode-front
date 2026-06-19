@@ -8,12 +8,10 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { useAuth } from '../../../shared/hooks/useAuth'
 import type { RoomCreate } from '../types/room'
 
-function buildRoom(data: CreateRoomFormData): RoomCreate {
-  return {
-    name: data.name, 
-    description: data.description
-  }
-}
+const buildRoom = (data: CreateRoomFormData): RoomCreate => ({
+  name: data.name, 
+  description: data.description
+})
 
 export const useCreateRoom = () => {
 

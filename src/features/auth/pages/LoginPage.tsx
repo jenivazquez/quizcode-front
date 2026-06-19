@@ -6,8 +6,11 @@ import { sessionStore } from '../../../shared/utils/sessionStore'
 import { PATHS } from '../../../app/routes/paths'
 
 const LoginPage = () => {
+
   const { form, onSubmit, loading, error } = useLogin()
+
   const { register, handleSubmit, formState: { errors } } = form
+  
   const sessionExpired = sessionStore.wasExpired()
 
   return (

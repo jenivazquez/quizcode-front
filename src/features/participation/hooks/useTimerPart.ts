@@ -8,7 +8,7 @@ interface Params {
   onExpire: () => void
 }
 
-export const useTimerQuiz = ({ quiz, onExpire }: Params) => {
+export const useTimerPart = ({ quiz, onExpire }: Params) => {
 
   const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
 
