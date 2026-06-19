@@ -21,3 +21,4 @@ interface Quiz {
 export type QuizCreate = Pick<Quiz, 'title' | 'description' | 'hasLimit' | 'limitMinutes'>
 export type QuizUpdate = Pick<Quiz, 'title' | 'description' | 'hasLimit' | 'limitMinutes'>
 export type QuizDetail = Quiz
+export type QuizDetailToAnswer = Pick<Quiz, 'id' | 'title' | 'description' | 'hasLimit' | 'limitMinutes'>

@@ -9,7 +9,7 @@ export type QuestionType = typeof QuestionType[keyof typeof QuestionType]
 interface Option {
   code: string
   value: string
-  isValid: boolean
+  isValid?: boolean
 }
 
 interface Question {

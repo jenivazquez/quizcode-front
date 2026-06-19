@@ -3,6 +3,7 @@ import { HOME_PATHS } from '../../features/home/routes/homePaths'
 import { USER_PATHS } from '../../features/user/routes/userPaths'
 import { QUIZ_PATHS } from '../../features/quiz/routes/quizPaths'
 import { ROOM_PATHS } from '../../features/room/routes/roomPaths'
+import { PART_PATHS } from '../../features/participation/routes/participationPaths'
 
 export const PATHS = {
   home: HOME_PATHS,
@@ -10,4 +11,5 @@ export const PATHS = {
   user: USER_PATHS,
   quiz: QUIZ_PATHS,
   room: ROOM_PATHS,
+  part: PART_PATHS,
 } as const

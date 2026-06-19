@@ -14,7 +14,6 @@ export const useDetailUser = () => {
   useEffect(() => {
     if (!userId) return
     const findUser = async () => {
-      if (!userId) return
       try {
         setUser(await findUserById(userId))
       } catch (err) {

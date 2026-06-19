@@ -4,10 +4,12 @@ declare module '@mui/material/styles' {
   interface PaletteColor {
     extralight?: string
     medium?: string
+    extra?: string
   }
   interface SimplePaletteColorOptions {
     extralight?: string
     medium?: string
+    extra?: string
   }
 }
 
@@ -21,8 +23,11 @@ const theme = createTheme({
       dark: '#835ea0',
     },
     secondary: { main: '#E3E9E4' },
-    success: { main: '#bae0bd' },
-    error: { main: '#c96b6b' }, //c96b6b
+    success: { extra: '#e0eae0', main: '#bae0bd' },
+    error: { 
+      extralight: '#f5d0d0',
+      main: '#c96b6b' 
+    }, //c96b6b
     background: {
       default: '#faf5f32a', // #fdfdff
       paper: '#ffffff',

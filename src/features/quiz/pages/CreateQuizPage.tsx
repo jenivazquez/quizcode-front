@@ -8,6 +8,7 @@ import { PATHS } from '../../../app/routes/paths'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
 
 const CreateQuizPage = () => {
+  
   const { form, onSubmit, loading, error, hasLimit } = useCreateQuiz()
   const { register, handleSubmit, formState: { errors } } = form
   const navigate = useNavigate()

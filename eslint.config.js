@@ -20,6 +20,7 @@ export default defineConfig([
       globals: globals.browser,
     },
     rules: {
+      'react-hooks/set-state-in-effect': 'off',
       'quotes': ['warn', 'single', { avoidEscape: true }],
       'indent': ['warn', 2, { SwitchCase: 1 }],
       'semi': ['warn', 'never'],

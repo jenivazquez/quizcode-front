@@ -1,6 +1,17 @@
 import { privateApi } from '../../../shared/api/privateApi'
+import { publicApi } from '../../../shared/api/publicApi'
 import type { QuestionResponse, CreateQuestionResponse } from './questionResponse'
 import type { QuestionDetail, QuestionCreate, QuestionUpdate } from '../types/question'
+
+export async function findQuestionsByQuizIdToAnswer(quizId: string, partId: string): Promise<QuestionDetail[]> {
+  const response = await publicApi.get<QuestionResponse[]>(`/quiz/${quizId}/question?partId=${partId}`)
+  return response.data
+}
+
+export async function findQuestionsByQuizIdToReview(quizId: string, partId: string): Promise<QuestionDetail[]> {
+  const response = await publicApi.get<QuestionResponse[]>(`/quiz/${quizId}/question/review?partId=${partId}`)
+  return response.data
+}
 
 export async function findQuestionsByQuizId(ownerId: string, quizId: string): Promise<QuestionDetail[]> {
   const response = await privateApi.get<QuestionResponse[]>(`/user/${ownerId}/quiz/${quizId}/question`)

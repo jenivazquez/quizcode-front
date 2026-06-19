@@ -3,7 +3,7 @@ import type { QuestionType } from '../types/question'
 export interface OptionResponse {
   code: string
   value: string
-  isValid: boolean
+  isValid?: boolean
 }
 
 export interface QuestionResponse {
