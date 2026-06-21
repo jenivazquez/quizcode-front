@@ -8,8 +8,18 @@ export const NAME_PATTERN = /^[A-Za-zÀ-ÿ '-]+$/
 export const LETTER_PATTERN = /[a-zA-Z]/
 export const NUMBER_PATTERN = /[0-9]/
 
-export const COLOR_BOX_RANKING = ['#f5e4a0', '#d0d4d8', '#e8cbb5']
-export const COLOR_TEXT_RANKING = ['#9a7800', '#4a4e52', '#8a5020']
+export const PART_COLORS = {
+  ranking: [
+    { box: '#f5e4a0', text: '#9a7800' },
+    { box: '#d0d4d8', text: '#4a4e52' },
+    { box: '#e8cbb5', text: '#8a5020' },
+  ],
+  default: { box: '#f5f5f5', text: '#616161' },
+  started: { box: '#ede7f6', text: '#6a1b9a' },
+}
+
+export const getPartColors = (index: number, isPartStarted: boolean) =>
+  isPartStarted ? PART_COLORS.started : PART_COLORS.ranking[index] ?? PART_COLORS.default
 
 export const REVIEW_STATUS: Record<ReviewStatus | 'ROOM_REVIEWED', { label: string, color: string, icon: ElementType }> = {
   PENDING:        { label: 'Pendiente de corrección',       color: 'text.secondary', icon: CancelOutlinedIcon },

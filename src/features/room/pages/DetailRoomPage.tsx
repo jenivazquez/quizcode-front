@@ -21,6 +21,7 @@ import ConfirmDialog from '../../../shared/components/ConfirmDialog'
 import { PATHS } from '../../../app/routes/paths'
 import { STATUS_LABEL, sxStatusChip } from '../constants/roomConstants'
 import { RoomStatus } from '../types/room'
+import ListParticipationsSection from '../../participation/sections/ListPartSection'
 
 const DetailRoomPage = () => {
 
@@ -171,9 +172,19 @@ const DetailRoomPage = () => {
 
         </Box>
 
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 3, py: 1.5, borderTop: '1px solid', borderColor: 'divider' }}>
+          <Typography variant='body2' color='primary.dark'>
+            { isCreated ? 'La sala está en borrador. Ábrela para que los participantes puedan acceder con el código de acceso.'
+              : isOpened ? 'La sala está abierta. Proporciona el código de acceso a los participantes para que puedan unirse a la sala.'
+                : isPaused ? 'La sala está pausada. Los participantes no pueden unirse hasta que la reabras.'
+                  : isClosed ? 'La sala está cerrada. No se aceptan nuevas participaciones.'
+                    : '' }
+          </Typography>
+        </Box>
+
       </Paper>
 
-      
+      <ListParticipationsSection room={room} />
 
       <ConfirmDialog
         open={openDialogOpen}

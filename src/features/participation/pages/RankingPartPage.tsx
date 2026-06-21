@@ -16,7 +16,7 @@ import { useDetailPart } from '../hooks/useDetailPart'
 import { ReviewStatus } from '../types/participation'
 import type { PartRankingDetail } from '../types/participation'
 import { STATUS_LABEL, sxStatusChip } from '../../room/constants/roomConstants'
-import { COLOR_BOX_RANKING, COLOR_TEXT_RANKING } from '../constants/participationConstants'
+import { getPartColors } from '../constants/participationConstants'
 import { PATHS } from '../../../app/routes/paths'
 
 const RankingPartPage = () => {
@@ -103,8 +103,7 @@ const RankingPartPage = () => {
           {ranking.map((part: PartRankingDetail, index: number) => {
 
             const isCurrentUser = part.username === currentPart.username
-            const boxColor = index < 3 ? COLOR_BOX_RANKING[index] : 'grey.100'
-            const textColor  = index < 3 ? COLOR_TEXT_RANKING[index] : 'text.secondary'
+            const { box: boxColor, text: textColor } = getPartColors(index, false)
 
             return (
               <Grow key={part.username} in timeout={400 + index * 80}>
