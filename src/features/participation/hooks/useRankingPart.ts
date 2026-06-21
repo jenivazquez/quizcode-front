@@ -5,7 +5,7 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { INTERVAL_RANKING_MS } from '../constants/participationConstants'
 import type { PartRankingDetail } from '../types/participation'
 
-export const useRankingPart = () => {
+export const useRankingPart = (autoLoop = true) => {
 
   const { roomId } = useParams<{ roomId: string }>()
 
@@ -25,9 +25,10 @@ export const useRankingPart = () => {
       }
     }
     findRanking()
+    if (!autoLoop) return
     const interval = setInterval(findRanking, INTERVAL_RANKING_MS)
     return () => clearInterval(interval)
-  }, [roomId])
+  }, [roomId, autoLoop])
 
   return { ranking, loading, error }
 }

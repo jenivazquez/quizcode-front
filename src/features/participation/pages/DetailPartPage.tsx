@@ -39,7 +39,7 @@ const DetailPartPage = () => {
 
   const maxScore = questions.reduce((sum, question) => sum + question.score, 0)
 
-  const { label: reviewLabel, color: reviewColor, icon: ReviewIcon } = REVIEW_STATUS[part.reviewStatus]
+  const { label: reviewLabel, color: reviewColor, icon: ReviewIcon } = REVIEW_STATUS[room.reviewed ? 'ROOM_REVIEWED' : part.reviewStatus]
 
   return (
     <Container maxWidth='lg' sx={{ py: { xs: 3, sm: 4 } }}>

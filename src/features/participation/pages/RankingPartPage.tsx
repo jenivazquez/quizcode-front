@@ -23,13 +23,13 @@ const RankingPartPage = () => {
 
   const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
 
-  const { room, loading: loadingRoom, error: detailRoomError } = useDetailRoomToAnswer()
+  const { room, loading: loadingRoom, error: detailRoomError } = useDetailRoomToAnswer(true)
   const { quiz, loading: loadingQuiz, error: detailQuizError } = useDetailQuizToAnswer(room?.quizId)
-  const { ranking, error: rankingError } = useRankingPart()
+  const { ranking, loading: loadingRanking,  error: rankingError } = useRankingPart(!room?.reviewed)
   const { part: currentPart, loading: loadingPart, error: detailPartError } = useDetailPart()
   const navigate = useNavigate()
 
-  if (loadingRoom || loadingQuiz || loadingPart) return <PageLoader />
+  if (loadingRoom || loadingQuiz ||loadingRanking || loadingPart) return <PageLoader />
   if (!room) return <ErrorAlert message={detailRoomError} />
   if (!quiz) return <ErrorAlert message={detailQuizError} />
   if (!currentPart) return <ErrorAlert message={detailPartError} />
@@ -86,13 +86,15 @@ const RankingPartPage = () => {
 
       <ErrorAlert message={rankingError} />
 
-      <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <CircularProgress size={10} thickness={5} />
-          <Typography variant='caption' color='text.secondary'>Actualizando en tiempo real</Typography>
+      {!room.reviewed && (
+        <Box sx={{ mb: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <CircularProgress size={10} thickness={5} />
+            <Typography variant='caption' color='text.secondary'>Actualizando en tiempo real</Typography>
+          </Box>
+          <Typography variant='caption' color='text.disabled' textAlign='center'>Las puntuaciones de cada participante aparecerán cuando sean corregidas por la IA, pero la puntuación no será definitiva hasta que el organizador la revise.</Typography>
         </Box>
-        <Typography variant='caption' color='text.disabled' textAlign='center'>Las puntuaciones de cada participante aparecerán cuando sean corregidas por la IA, pero la puntuación no será definitiva hasta que el organizador la revise.</Typography>
-      </Box>
+      )}
 
       {ranking.length > 0 &&  (
 

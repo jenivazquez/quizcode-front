@@ -32,7 +32,9 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
 
   const handleTypeOnChange = (newType: QuestionType) => {
     setValue('type', newType, { shouldDirty: true })
-    if (newType !== QuestionType.EDIT_CODE) {
+    if (newType === QuestionType.EDIT_CODE) {
+      replace([])
+    } else {
       const minOptions = newType === QuestionType.MULTIPLE_CHOICE ? 3 : 2
       const optionsWithValue = options.filter(o => o.value.trim() !== '')
       const numNewOptions = Math.max(0, minOptions - optionsWithValue.length)

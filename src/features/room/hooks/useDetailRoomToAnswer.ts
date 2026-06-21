@@ -3,19 +3,19 @@ import { findRoomByIdToAnswer } from '../services/roomApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import type { RoomDetail } from '../types/room'
 import { useParams } from 'react-router-dom'
+import { INTERVAL_RANKING_MS } from '../../participation/constants/participationConstants'
 
-export const useDetailRoomToAnswer = () => {
+export const useDetailRoomToAnswer = (autoLoop?: boolean) => {
 
   const { roomId } = useParams<{ roomId: string}>()
 
   const [room, setRoom] = useState<RoomDetail | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!roomId) return
     const findRoom = async () => {
-      setLoading(true)
       setError(null)
       try {
         setRoom(await findRoomByIdToAnswer(roomId))
@@ -26,7 +26,10 @@ export const useDetailRoomToAnswer = () => {
       }
     }
     findRoom()
-  }, [roomId])
+    if (!autoLoop || room?.reviewed) return
+    const interval = setInterval(findRoom, INTERVAL_RANKING_MS)
+    return () => clearInterval(interval)
+  }, [roomId, autoLoop, room?.reviewed])
 
   return { room, loading, error }
 }
