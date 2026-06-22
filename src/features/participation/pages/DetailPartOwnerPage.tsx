@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
-  Box, Typography, Paper, Container, Divider,
+  Box, Typography, Paper, Container, Divider, Tooltip, IconButton,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
@@ -8,11 +9,14 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import DeleteIcon from '@mui/icons-material/Delete'
 import PageLoader from '../../../shared/components/PageLoader'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
 import CodeViewer from '../../../shared/components/CodeViewer'
+import ConfirmDialog from '../../../shared/components/ConfirmDialog'
 import { useDetailRoom } from '../../room/hooks/useDetailRoom'
 import { useDetailPartOwner } from '../hooks/useDetailPartOwner'
+import { useDeletePart } from '../hooks/useDeletePart'
 import { useListQuestionsToReview } from '../../question/hooks/useListQuestionsToReview'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
@@ -22,12 +26,15 @@ import { formatTime } from '../utils/formatTime'
 
 const DetailPartOwnerPage = () => {
 
-  const { quizId, roomId} = useParams<{ quizId: string, roomId: string}>()
+  const { quizId, roomId } = useParams<{ quizId: string, roomId: string }>()
+  const navigate = useNavigate()
 
   const { room, loading: loadingRoom, error: roomError } = useDetailRoom()
   const { part, loading: loadingPart, error: partError } = useDetailPartOwner()
   const { questions, loading: loadingQuestions, error: questionsError } = useListQuestionsToReview(room?.quizId)
-  const navigate = useNavigate()
+  const { remove, loading: loadingDelete, error: deleteError } = useDeletePart()
+
+  const [openDialogDelete, setOpenDialogDelete] = useState(false)
 
   if (loadingRoom || loadingPart || loadingQuestions) return <PageLoader />
   if (!room) return <ErrorAlert message={roomError} />
@@ -43,9 +50,18 @@ const DetailPartOwnerPage = () => {
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', mb: 3 }}>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 3, py: 1.5, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <ReviewIcon fontSize='small' sx={{ color: reviewColor }} />
-          <Typography variant='body1' fontWeight={600} color={reviewColor}>{reviewLabel}</Typography>
+        <Box sx={{ display: 'flex', alignItems: 'stretch', bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
+          <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, px: 3, py: 1.5 }}>
+            <ReviewIcon fontSize='small' sx={{ color: reviewColor }} />
+            <Typography variant='body1' fontWeight={600} color={reviewColor}>{reviewLabel}</Typography>
+          </Box>
+          <Box sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
+            <Tooltip title='Eliminar participación'>
+              <IconButton color='error' onClick={() => setOpenDialogDelete(true)} sx={{ borderRadius: 0, px: 2 }}>
+                <DeleteIcon fontSize='medium' />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: { xs: 3, sm: 5 }, py: { xs: 3, sm: 5 }, textAlign: 'center', gap: 2, backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -152,6 +168,17 @@ const DetailPartOwnerPage = () => {
           )
         })}
       </Box>
+
+      <ErrorAlert message={deleteError} />
+
+      <ConfirmDialog
+        open={openDialogDelete}
+        title='Eliminar participación'
+        message='¿Seguro que quieres eliminar esta participación? Se eliminarán todas las respuestas asociadas. Esta acción no se puede deshacer.'
+        loading={loadingDelete}
+        onConfirm={async () => { await remove(part.id); setOpenDialogDelete(false) }}
+        onClose={() => setOpenDialogDelete(false)}
+      />
 
     </Container>
   )

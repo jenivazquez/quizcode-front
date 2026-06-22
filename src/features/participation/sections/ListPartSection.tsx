@@ -101,13 +101,13 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
                             </Box>
                           )}
 
-                          {part.totalScore && (
+                          {part.totalScore != null && (
                             <Typography variant='body1' fontWeight={700} color='primary.main' sx={{ width: 72, textAlign: 'right', flexShrink: 0 }}>
                               {part.totalScore} pts
                             </Typography>
                           )}
 
-                          {part.totalTime && (
+                          {part.totalTime != null && (
                             <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
                               <TimerOutlinedIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
                               <Typography variant='body2' color='text.secondary'>{formatTime(part.totalTime)}</Typography>
