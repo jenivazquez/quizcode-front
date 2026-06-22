@@ -44,7 +44,7 @@ export async function findRoomByCode(code: string): Promise<RoomDetail> {
   return response.data
 }
 
-export async function findRoomByIdToAnswer(roomId: string): Promise<RoomDetail> {
-  const response = await publicApi.get<RoomResponse>(`/room/${roomId}`)
+export async function findRoomByIdToAnswer(roomId: string): Promise<QuizRoomDetail> {
+  const response = await publicApi.get<QuizRoomResponse>(`/room/${roomId}`)
   return response.data
 }

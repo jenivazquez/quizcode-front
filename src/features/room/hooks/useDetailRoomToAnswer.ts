@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { findRoomByIdToAnswer } from '../services/roomApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
-import type { RoomDetail } from '../types/room'
+import type { QuizRoomDetail } from '../types/room'
 import { useParams } from 'react-router-dom'
 import { INTERVAL_RANKING_MS } from '../../participation/constants/participationConstants'
 
@@ -9,7 +9,7 @@ export const useDetailRoomToAnswer = (autoLoop?: boolean) => {
 
   const { roomId } = useParams<{ roomId: string}>()
 
-  const [room, setRoom] = useState<RoomDetail | null>(null)
+  const [room, setRoom] = useState<QuizRoomDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

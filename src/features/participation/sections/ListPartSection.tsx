@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Box, Typography, Paper, Divider, CircularProgress, Grow, IconButton, Tooltip } from '@mui/material'
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined'
@@ -13,12 +14,16 @@ import { formatTime } from '../utils/formatTime'
 import { RoomStatus } from '../../room/types/room'
 import type { QuizRoomDetail } from '../../room/types/room'
 import type { PartDetail } from '../types/participation'
+import { PATHS } from '../../../app/routes/paths'
 
 interface ListPartSectionProps {
   room: QuizRoomDetail
 }
 
 const ListPartSection = ({ room }: ListPartSectionProps) => {
+
+  const { quizId, roomId } = useParams<{ quizId: string, roomId: string }>()
+  const navigate = useNavigate()
 
   const autoLoop = !room.reviewed && !(room.status === RoomStatus.CREATED)
 
@@ -65,17 +70,17 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
               
               {parts.map((part: PartDetail, index: number) => {
 
-                const isPartStarted = part.status === PartStatus.STARTED
-                const { box: boxColor, text: textColor } = getPartColors(index, isPartStarted)
+                const isPartInProgress = part.status === PartStatus.STARTED
+                const { box: boxColor, text: textColor } = getPartColors(index, isPartInProgress)
                 const { label: reviewLabel, color: reviewColor, icon: ReviewIcon } = REVIEW_STATUS[room.reviewed ? 'ROOM_REVIEWED' : part.reviewStatus]
 
                 return (
                   <Grow key={part.id} in timeout={400 + index * 80}>
-                    <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
+                    <Paper onClick={() => !isPartInProgress && navigate(PATHS.part.ownerDetail(quizId!, roomId!, part.id))} sx={{ borderRadius: 3, overflow: 'hidden', cursor: isPartInProgress ? 'default' : 'pointer' }}>
                       <Box sx={{ display: 'flex', alignItems: 'stretch' }}>
 
                         <Box sx={{ width: { xs: 60, sm: 80 }, flexShrink: 0, bgcolor: boxColor, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5, borderRight: '1px solid', borderColor: 'divider' }}>
-                          {!isPartStarted && index < 3 && <WorkspacePremiumIcon sx={{ fontSize: 26, color: textColor }} />}
+                          {!isPartInProgress && index < 3 && <WorkspacePremiumIcon sx={{ fontSize: 26, color: textColor }} />}
                           <Typography variant='body1' fontWeight={800} lineHeight={1} color={textColor}> {index + 1} </Typography>
                         </Box>
 
@@ -83,13 +88,13 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
 
                           <Typography variant='body1' fontWeight={600} noWrap sx={{ flex: 1 }}>{part.username}</Typography>
 
-                          {isPartStarted && (
+                          {isPartInProgress && (
                             <Typography variant='body2' color={textColor} sx={{ display: { xs: 'none', sm: 'block' }, flexShrink: 0 }}>
                               En curso…
                             </Typography>
                           )}
 
-                          {!isPartStarted && (
+                          {!isPartInProgress && (
                             <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 0.5, flexShrink: 0 }}>
                               <ReviewIcon sx={{ fontSize: 16, color: reviewColor }} />
                               <Typography variant='body2' color={reviewColor}>{reviewLabel}</Typography>
@@ -111,7 +116,7 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
 
                         </Box>
 
-                        <Box sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
+                        <Box onClick={e => e.stopPropagation()} sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                           <Tooltip title='Eliminar participación'>
                             <IconButton color='error' onClick={() => setIdPartToDelete(part.id)} sx={{ borderRadius: 0, px: { xs: 1, sm: 1.5 } }}>
                               <DeleteIcon />

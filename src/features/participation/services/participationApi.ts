@@ -27,6 +27,11 @@ export async function findPartsRanking(roomId: string): Promise<PartRankingDetai
   return response.data
 }
 
+export async function findPartByIdAsOwner(ownerId: string, quizId: string, roomId: string, partId: string): Promise<PartDetail> {
+  const response = await privateApi.get<PartResponse>(`/user/${ownerId}/quiz/${quizId}/room/${roomId}/participation/${partId}`)
+  return response.data
+}
+
 export async function findPartsByRoomAsOwner(ownerId: string, quizId: string, roomId: string): Promise<PartDetail[]> {
   const response = await privateApi.get<PartResponse[]>(`/user/${ownerId}/quiz/${quizId}/room/${roomId}/participation`)
   return response.data

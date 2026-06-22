@@ -11,8 +11,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import PageLoader from '../../../shared/components/PageLoader'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
 import CodeViewer from '../../../shared/components/CodeViewer'
-import { useDetailRoomToAnswer } from '../../room/hooks/useDetailRoomToAnswer'
-import { useDetailPart } from '../hooks/useDetailPart'
+import { useDetailRoom } from '../../room/hooks/useDetailRoom'
+import { useDetailPartOwner } from '../hooks/useDetailPartOwner'
 import { useListQuestionsToReview } from '../../question/hooks/useListQuestionsToReview'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
@@ -20,18 +20,18 @@ import { REVIEW_STATUS } from '../constants/participationConstants'
 import { formatTime } from '../utils/formatTime'
 
 
-const DetailPartPage = () => {
+const DetailPartOwnerPage = () => {
 
-  const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
+  const { quizId, roomId} = useParams<{ quizId: string, roomId: string}>()
 
-  const { room, loading: loadingRoom, error: detailRoomError } = useDetailRoomToAnswer()
-  const { part, loading: loadingPart, error: detailPartError } = useDetailPart()
+  const { room, loading: loadingRoom, error: roomError } = useDetailRoom()
+  const { part, loading: loadingPart, error: partError } = useDetailPartOwner()
   const { questions, loading: loadingQuestions, error: questionsError } = useListQuestionsToReview(room?.quizId)
   const navigate = useNavigate()
 
   if (loadingRoom || loadingPart || loadingQuestions) return <PageLoader />
-  if (!room) return <ErrorAlert message={detailRoomError} />
-  if (!part) return <ErrorAlert message={detailPartError} />
+  if (!room) return <ErrorAlert message={roomError} />
+  if (!part) return <ErrorAlert message={partError} />
   if (!questions) return <ErrorAlert message={questionsError} />
 
   const maxScore = questions.reduce((sum, question) => sum + question.score, 0)
@@ -50,10 +50,10 @@ const DetailPartPage = () => {
 
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: { xs: 3, sm: 5 }, py: { xs: 3, sm: 5 }, textAlign: 'center', gap: 2, backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
 
-          <Typography variant='h5' fontWeight={700}>{room.quizTitle}</Typography>
+          <Typography variant='h6'>Participante: {part.username}</Typography>
+          <Typography variant='body1' color='text.secondary'><b>Cuestionario:</b> {room.quizTitle}</Typography>
           <Typography variant='body1' color='text.secondary'><b>Sala:</b> {room.name}</Typography>
-          <Typography variant='body1' color='text.secondary'><b>Participante:</b> {part.username}</Typography>
-
+          
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 1, borderRadius: 5, bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider' }}>
             <TimerOutlinedIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
             <Typography variant='body2' fontWeight={600} color='text.secondary' lineHeight={1}>{formatTime(part.totalTime)}</Typography>
@@ -61,19 +61,19 @@ const DetailPartPage = () => {
 
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, px: 3, py: 1, borderRadius: 3, bgcolor: theme => alpha(theme.palette.primary.extralight!, 0.5), border: '1px solid', borderColor: 'primary.light' }}>
             <Typography variant='h5' fontWeight={800} color='primary.main' lineHeight={1}> {part.totalScore ?? '0'} </Typography>
-            <Typography variant='h6' fontWeight={400} color='text.secondary'>/ {maxScore} pts</Typography>
+            <Typography variant='h6' fontWeight={400} color='text.secondary'>/ {maxScore} puntos</Typography>
           </Box>
 
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider', px: 3, py: 1.5 }}>
-          <Box onClick={() => navigate(PATHS.part.ranking(roomId!, partId!))}
-            sx={{  display: 'inline-flex', alignItems: 'center', gap: 1, cursor: 'pointer',
+          <Box onClick={() => navigate(PATHS.room.detail(quizId!, roomId!))}
+            sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, cursor: 'pointer',
               '&:hover .nav-label': { textDecoration: 'underline' },
               '&:hover .nav-arrow': { transform: 'translateX(-3px)' },
-            }} >
+            }}>
             <ChevronLeftIcon className='nav-arrow' fontSize='small' color='primary' sx={{ transition: 'transform 0.15s' }} />
-            <Typography className='nav-label' variant='body2' fontWeight={500} color='primary'>Volver a la clasificación</Typography>
+            <Typography className='nav-label' variant='body2' fontWeight={500} color='primary'>Volver a la sala</Typography>
           </Box>
         </Box>
 
@@ -107,9 +107,9 @@ const DetailPartPage = () => {
 
                     {question.options?.map(option => {
 
-                      const chosen  = answer?.codeOptions?.includes(option.code) ?? false
-                      const color = option.isValid ? 'success.dark' : (chosen ? 'error.main' : 'text.secondary')
-                      const Icon = option.isValid && chosen  ? CheckCircleOutlineIcon : (!option.isValid && chosen ? CancelOutlinedIcon : RadioButtonUncheckedIcon)
+                      const chosen = answer?.codeOptions?.includes(option.code) ?? false
+                      const color  = option.isValid ? 'success.dark' : (chosen ? 'error.main' : 'text.secondary')
+                      const Icon   = option.isValid && chosen ? CheckCircleOutlineIcon : (!option.isValid && chosen ? CancelOutlinedIcon : RadioButtonUncheckedIcon)
 
                       return (
                         <Box key={option.code} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -125,12 +125,12 @@ const DetailPartPage = () => {
                 )}
 
                 {question.type === QuestionType.EDIT_CODE && (
-                  
+
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {answer?.feedback && (
                       <>
                         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                          <Typography variant='body2' fontWeight={600} color='text.secondary' sx={{ flexShrink: 0 }}> Comentarios:</Typography>
+                          <Typography variant='body2' fontWeight={600} color='text.secondary' sx={{ flexShrink: 0 }}>Comentarios:</Typography>
                           <Typography variant='body2' color='text.secondary'>{answer.feedback}</Typography>
                         </Box>
                         <Divider />
@@ -142,7 +142,7 @@ const DetailPartPage = () => {
                     ) : (
                       <Typography variant='body2' color='text.disabled'>Sin respuesta</Typography>
                     )}
-                    
+
                   </Box>
 
                 )}
@@ -157,4 +157,4 @@ const DetailPartPage = () => {
   )
 }
 
-export default DetailPartPage
+export default DetailPartOwnerPage
