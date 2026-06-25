@@ -13,12 +13,13 @@ export const useDetailPartOwner = () => {
   const [part, setPart] = useState<PartDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [refresh, setRefresh] = useState(0)
+
+  const refreshPart = () => setRefresh(k => k + 1)
 
   useEffect(() => {
     if (!userId || !quizId || !roomId || !partId) return
     const findPart = async () => {
-      setLoading(true)
-      setError(null)
       try {
         setPart(await findPartByIdAsOwner(userId, quizId, roomId, partId))
       } catch (err) {
@@ -28,7 +29,7 @@ export const useDetailPartOwner = () => {
       }
     }
     findPart()
-  }, [userId, quizId, roomId, partId])
+  }, [userId, quizId, roomId, partId, refresh])
 
-  return { part, loading, error }
+  return { part, loading, error, refreshPart }
 }

@@ -1,7 +1,7 @@
 import { publicApi } from '../../../shared/api/publicApi'
 import { privateApi } from '../../../shared/api/privateApi'
 import type { PartResponse, PartRankingResponse, IdPartResponse, LoginPartResponse } from './participationResponse'
-import type { PartCreate, PartLogin, PartDetail, PartRankingDetail, AnswerSubmit } from '../types/participation'
+import type { PartCreate, PartLogin, PartDetail, PartRankingDetail, AnswerSubmit, AnswerReview } from '../types/participation'
 
 export async function createPart(roomId: string, data: PartCreate): Promise<string> {
   const response = await publicApi.post<IdPartResponse>(`/room/${roomId}/participation`, data)
@@ -39,4 +39,8 @@ export async function findPartsByRoomAsOwner(ownerId: string, quizId: string, ro
 
 export async function deletePartAsOwner(ownerId: string, quizId: string, roomId: string, partId: string): Promise<void> {
   await privateApi.delete(`/user/${ownerId}/quiz/${quizId}/room/${roomId}/participation/${partId}`)
+}
+
+export async function reviewPartAsOwner(ownerId: string, quizId: string, roomId: string, partId: string, answers: AnswerReview[]): Promise<void> {
+  await privateApi.patch(`/user/${ownerId}/quiz/${quizId}/room/${roomId}/participation/${partId}`, answers)
 }

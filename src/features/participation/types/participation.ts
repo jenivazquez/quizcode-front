@@ -8,6 +8,7 @@ export type PartStatus = typeof PartStatus[keyof typeof PartStatus]
 export const ReviewStatus = {
   PENDING:        'PENDING',
   IA_REVIEWED:    'IA_REVIEWED',
+  IA_FAILED:      'IA_FAILED',
   OWNER_REVIEWED: 'OWNER_REVIEWED',
 } as const
 
@@ -43,3 +44,10 @@ export type PartRankingDetail = Pick<Participation, 'username' | 'totalScore' | 
 
 export type AnswerSubmit = Pick<Answer, 'questionId' | 'codeOptions' | 'writtenAnswer'>
 export type AnswerDetail = Answer
+
+export type AnswerReview = {
+  questionId: string
+  isCorrect: boolean
+  score: number
+  feedback: string | null
+}

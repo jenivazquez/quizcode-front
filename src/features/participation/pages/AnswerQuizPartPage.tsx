@@ -136,7 +136,7 @@ const AnswerQuizPartPage = () => {
                   </Box>
                 )}
 
-                {question.type === QuestionType.EDIT_CODE && (
+                {question.baseCode && (
                   <AnswerCodeEditor
                     value={answers[question.id]?.writtenAnswer ?? question.baseCode ?? ''}
                     onChange={value => handleAnswer(question.id, question.type, value)}

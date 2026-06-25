@@ -2,7 +2,7 @@ import type { ElementType } from 'react'
 import type { ReviewStatus } from '../types/participation'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import TaskAltIcon from '@mui/icons-material/TaskAlt'
-import WarningIcon from '@mui/icons-material/ReportGmailerrorred'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 export const NAME_PATTERN = /^[A-Za-zÀ-ÿ '-]+$/
 export const LETTER_PATTERN = /[a-zA-Z]/
@@ -22,9 +22,10 @@ export const getPartColors = (index: number, isPartStarted: boolean) =>
   isPartStarted ? PART_COLORS.started : PART_COLORS.ranking[index] ?? PART_COLORS.default
 
 export const REVIEW_STATUS: Record<ReviewStatus | 'ROOM_REVIEWED', { label: string, color: string, icon: ElementType }> = {
-  PENDING:        { label: 'Pendiente de corrección',       color: 'text.secondary', icon: CancelOutlinedIcon },
-  IA_REVIEWED:    { label: 'Corregido por IA',              color: 'primary.main',   icon: WarningIcon },
-  OWNER_REVIEWED: { label: 'Corregido por el organizador',  color: 'success.dark',   icon: TaskAltIcon },
+  PENDING:        { label: 'Corrección pendiente',       color: 'text.secondary', icon: CancelOutlinedIcon },
+  IA_REVIEWED:    { label: 'Corregido por IA',              color: 'primary.main',   icon: ErrorOutlineIcon },
+  IA_FAILED:      { label: 'Corrección fallida',        color: 'error.main',     icon: ErrorOutlineIcon },
+  OWNER_REVIEWED: { label: 'Corregido por organizador',  color: 'success.dark',   icon: TaskAltIcon },
   ROOM_REVIEWED:  { label: 'Puntuación definitiva',         color: 'success.dark',   icon: TaskAltIcon },
 }
 

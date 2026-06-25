@@ -92,7 +92,7 @@ const RankingPartPage = () => {
             <CircularProgress size={10} thickness={5} />
             <Typography variant='caption' color='text.secondary'>Actualizando en tiempo real</Typography>
           </Box>
-          <Typography variant='caption' color='text.disabled' textAlign='center'>Las puntuaciones de cada participante aparecerán cuando sean corregidas por la IA, pero la puntuación no será definitiva hasta que el organizador la revise.</Typography>
+          <Typography variant='caption' color='text.disabled' textAlign='center'>Las puntuaciones de cada participante aparecerán cuando finalice la corrección, pero la puntuación no será definitiva hasta que el organizador la revise.</Typography>
         </Box>
       )}
 

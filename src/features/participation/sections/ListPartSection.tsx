@@ -101,9 +101,9 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
                             </Box>
                           )}
 
-                          {part.totalScore != null && (
+                          {!isPartInProgress && (
                             <Typography variant='body1' fontWeight={700} color='primary.main' sx={{ width: 72, textAlign: 'right', flexShrink: 0 }}>
-                              {part.totalScore} pts
+                              {part.totalScore != null ? `${part.totalScore} pts` : '—'}
                             </Typography>
                           )}
 

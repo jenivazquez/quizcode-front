@@ -60,7 +60,7 @@ const DetailPartPage = () => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, px: 3, py: 1, borderRadius: 3, bgcolor: theme => alpha(theme.palette.primary.extralight!, 0.5), border: '1px solid', borderColor: 'primary.light' }}>
-            <Typography variant='h5' fontWeight={800} color='primary.main' lineHeight={1}> {part.totalScore ?? '0'} </Typography>
+            <Typography variant='h5' fontWeight={800} color='primary.main' lineHeight={1}> {part.totalScore ?? '_'} </Typography>
             <Typography variant='h6' fontWeight={400} color='text.secondary'>/ {maxScore} pts</Typography>
           </Box>
 
@@ -83,19 +83,19 @@ const DetailPartPage = () => {
 
         {questions.map((question, index) => {
 
-          const answer = part.answers.find(answer => answer.questionId === question.id)
+          const answer = part.answers.find(a => a.questionId === question.id)
 
           return (
 
             <Paper key={question.id} sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
               <Box sx={{ display: 'flex', alignItems: 'stretch', bgcolor: 'grey.50', borderBottom: '1px solid', borderColor: 'divider' }}>
-                <Box sx={{ width: 52, flexShrink: 0, bgcolor: answer?.isCorrect ? 'success.extra' : '#f5d0d0', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: '1px solid', borderColor: 'divider' }}>
-                  <Typography variant='body1' fontWeight={800} color={answer?.isCorrect ? 'success.dark' : 'error.dark'}> {index + 1} </Typography>
+                <Box sx={{ width: 52, flexShrink: 0, bgcolor: (answer?.isCorrect==null ? 'grey.100' : (answer?.isCorrect ? 'success.extra' : '#f5d0d0')) , display: 'flex', alignItems: 'center', justifyContent: 'center', borderRight: '1px solid', borderColor: 'divider' }}>
+                  <Typography variant='body1' fontWeight={800} color={(answer?.isCorrect==null ? 'text.secondary' : (answer?.isCorrect ? 'success.dark' : 'error.dark'))}> {index + 1} </Typography>
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 2, px: { xs: 2, sm: 3 }, py: 2 }}>
                   <Typography variant='body1' fontWeight={600} sx={{ flex: 1 }}>{question.statement}</Typography>
-                  <Typography variant='caption' fontWeight={600} color='primary.main' sx={{ flexShrink: 0 }}> {answer?.score ?? 0} / {question.score} pts </Typography>
+                  <Typography variant='caption' fontWeight={600} color='primary.main' sx={{ flexShrink: 0 }}> {answer?.score ?? '_'} / {question.score} pts </Typography>
                 </Box>
               </Box>
 
@@ -125,26 +125,23 @@ const DetailPartPage = () => {
                 )}
 
                 {question.type === QuestionType.EDIT_CODE && (
-                  
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    {answer?.feedback && (
-                      <>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                          <Typography variant='body2' fontWeight={600} color='text.secondary' sx={{ flexShrink: 0 }}> Comentarios:</Typography>
-                          <Typography variant='body2' color='text.secondary'>{answer.feedback}</Typography>
-                        </Box>
-                        <Divider />
-                      </>
-                    )}
-
                     {answer?.writtenAnswer ? (
                       <CodeViewer value={answer.writtenAnswer} />
                     ) : (
                       <Typography variant='body2' color='text.disabled'>Sin respuesta</Typography>
                     )}
-                    
                   </Box>
+                )}
 
+                {answer?.feedback && (
+                  <>
+                    <Divider />
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                      <Typography variant='body2' fontWeight={600} color='text.secondary' sx={{ flexShrink: 0 }}>Comentarios:</Typography>
+                      <Typography variant='body2' color='text.secondary'>{answer.feedback}</Typography>
+                    </Box>
+                  </>
                 )}
 
               </Box>
