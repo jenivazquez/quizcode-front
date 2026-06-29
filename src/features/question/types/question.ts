@@ -26,3 +26,22 @@ interface Question {
 export type QuestionCreate = Pick<Question, 'statement' | 'baseCode' | 'type' | 'order'| 'score' | 'options'>
 export type QuestionUpdate = Pick<Question, 'statement' | 'baseCode' | 'type' | 'order'| 'score' | 'options'>
 export type QuestionDetail = Question
+
+export interface Message {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export interface AIOption {
+  value: string
+  isValid: boolean
+}
+
+export interface AIQuestion {
+  message: string
+  statement?: string
+  baseCode?: string | null
+  type?: QuestionType
+  score?: number
+  options?: AIOption[] | null
+}

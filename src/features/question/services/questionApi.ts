@@ -1,7 +1,7 @@
 import { privateApi } from '../../../shared/api/privateApi'
 import { publicApi } from '../../../shared/api/publicApi'
 import type { QuestionResponse, CreateQuestionResponse } from './questionResponse'
-import type { QuestionDetail, QuestionCreate, QuestionUpdate } from '../types/question'
+import type { QuestionDetail, QuestionCreate, QuestionUpdate, Message, AIQuestion } from '../types/question'
 
 export async function findQuestionsByQuizIdToAnswer(quizId: string, partId: string): Promise<QuestionDetail[]> {
   const response = await publicApi.get<QuestionResponse[]>(`/quiz/${quizId}/question?partId=${partId}`)
@@ -29,4 +29,9 @@ export async function updateQuestion(ownerId: string, quizId: string, questionId
 
 export async function deleteQuestion(ownerId: string, quizId: string, questionId: string): Promise<void> {
   await privateApi.delete(`/user/${ownerId}/quiz/${quizId}/question/${questionId}`)
+}
+
+export async function generateQuestion(ownerId: string, quizId: string, messages: Message[]): Promise<IAQuestion> {
+  const response = await privateApi.post<AIQuestion>(`/user/${ownerId}/quiz/${quizId}/question/generate`, messages)
+  return response.data
 }

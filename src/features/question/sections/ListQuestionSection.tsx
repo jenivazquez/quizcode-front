@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Button, Typography, Paper, IconButton, Tooltip } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
@@ -28,6 +28,12 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
 
   const nextOrder = questions.length === 0 ? 100 : Math.max(...questions.map(q => q.order)) + 100
   const isBusy = showCreateForm || questionToEdit !== null
+
+  useEffect(() => {
+    if (showCreateForm) requestAnimationFrame(() =>
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    )
+  }, [showCreateForm])
 
   if (loading) return <PageLoader />
   if (error) return <ErrorAlert message={error} />
@@ -114,7 +120,7 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
       {isEditable && !isBusy && (
         <Box>
           <Button startIcon={<AddIcon />} onClick={() => setShowCreateForm(true)}>
-                Añadir pregunta
+            Añadir pregunta
           </Button>
         </Box>
       )}

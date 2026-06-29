@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import PageLoader from '../components/PageLoader'
 
 const MainLayout = () => (
-  <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+  <Box id='page-content' sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
     <ScrollRestoration />
     <Navbar />
     <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
