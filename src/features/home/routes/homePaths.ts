@@ -1,3 +1,3 @@
 export const HOME_PATHS = {
-  home: '/',
+  root: '/',
 } as const

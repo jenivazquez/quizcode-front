@@ -1,6 +1,6 @@
 export const QUIZ_PATHS = {
-  list: '/quiz',
-  create: '/quiz/new',
-  edit: (id: string) => `/quiz/${id}/edit`,
-  update: (id: string) => `/quiz/${id}/update`,
+  list:   '/quizzes',
+  create: '/quizzes/new',
+  detail: (id: string) => `/quizzes/${id}`,
+  edit:   (id: string) => `/quizzes/${id}/edit`,
 } as const

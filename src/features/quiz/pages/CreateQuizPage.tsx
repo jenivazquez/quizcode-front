@@ -8,12 +8,13 @@ import { PATHS } from '../../../app/routes/paths'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
 
 const CreateQuizPage = () => {
+  
   const { form, onSubmit, loading, error, hasLimit } = useCreateQuiz()
   const { register, handleSubmit, formState: { errors } } = form
   const navigate = useNavigate()
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container maxWidth="md" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
@@ -23,11 +24,11 @@ const CreateQuizPage = () => {
 
         <Box sx={{ p: 7}}>
 
-          <ErrorAlert message={error} />
-
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
 
             <Grid container spacing={3}>
+
+              <ErrorAlert message={error} />
 
               <Grid size={12}>
                 <TextField
@@ -76,7 +77,7 @@ const CreateQuizPage = () => {
               )}
 
               <Grid size={12} sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 3 }}>
-                <Button variant="outlined" onClick={() => navigate(PATHS.list)} disabled={loading}>Cancelar</Button>
+                <Button variant="outlined" onClick={() => navigate(PATHS.quiz.list)} disabled={loading}>Cancelar</Button>
                 <Button type="submit" variant="contained" disabled={loading}>Crear cuestionario</Button>
               </Grid>
 

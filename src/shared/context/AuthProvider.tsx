@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { AuthContext } from './AuthContext'
-import { setSessionStorage, clearSessionStorage, getSessionStorage } from '../utils/session'
+import { sessionStore } from '../utils/sessionStore'
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -8,30 +8,17 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 
-  const getInitialAuth = () => {
-    const { token, validUntil, userId } = getSessionStorage()
-    if (token && validUntil && new Date(validUntil) > new Date()) {
-      return { isAuth: true, userId }
-    } else {
-      clearSessionStorage()
-      return { isAuth: false, userId }
-    }
-  }
+  const isAuth = useSyncExternalStore(sessionStore.subscribe, sessionStore.getIsAuth)
+  const userId = useSyncExternalStore(sessionStore.subscribe, sessionStore.getUserId)
 
-  const [auth, setAuth] = useState(getInitialAuth)
-
-  const clearSession = () => {
-    clearSessionStorage()
-    setAuth({ isAuth: false, userId: null })
-  }
+  const clearSession = () => sessionStore.clear()
 
   const saveSession = (token: string, validUntil: string, userId: string) => {
-    setSessionStorage(token, validUntil, userId)
-    setAuth({ isAuth: true, userId })
+    sessionStore.save(token, validUntil, userId)
   }
 
   return (
-    <AuthContext.Provider value={{ isAuth: auth.isAuth, userId: auth.userId, saveSession, clearSession }}>
+    <AuthContext.Provider value={{ isAuth, userId, saveSession, clearSession }}>
       {children}
     </AuthContext.Provider>
   )

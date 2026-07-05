@@ -9,14 +9,12 @@ import { useAuth } from '../../../shared/hooks/useAuth'
 import { PATHS } from '../../../app/routes/paths'
 import type { QuizCreate } from '../types/quiz'
 
-function buildQuiz(data: QuizFormData): QuizCreate {
-  return {
-    title: data.title,
-    description: data.description,
-    hasLimit: data.hasLimit,
-    limitMinutes: data.hasLimit ? data.limitMinutes ?? null : null,
-  }
-}
+const buildQuiz = (data: QuizFormData): QuizCreate => ({
+  title: data.title,
+  description: data.description,
+  hasLimit: data.hasLimit,
+  limitMinutes: data.hasLimit ? data.limitMinutes ?? null : null,
+}) 
 
 export const useCreateQuiz = () => {
 
@@ -37,8 +35,8 @@ export const useCreateQuiz = () => {
     setLoading(true)
     setError(null)
     try {
-      const quizId = await createQuiz(userId, buildQuiz(data))
-      navigate(PATHS.edit(quizId))
+      await createQuiz(userId, buildQuiz(data))
+      navigate(PATHS.quiz.list)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al crear el quiz'))
     } finally {

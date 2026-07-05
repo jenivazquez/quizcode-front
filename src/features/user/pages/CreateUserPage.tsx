@@ -4,10 +4,9 @@ import { useCreateUser } from '../hooks/useCreateUser'
 import { PATHS } from '../../../app/routes/paths'
 import { type CreateUserFormData } from '../schemas/createUserSchema'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
-import SuccessSnackbar from '../../../shared/components/SuccessSnackbar'
 
 const CreateUserPage = () => {
-  const { form, onSubmit, loading, error, success } = useCreateUser()
+  const { form, onSubmit, loading, error } = useCreateUser()
   const { register, handleSubmit, formState: { errors } } = form
 
   const fields: { name: keyof CreateUserFormData; label: string; type?: string }[] = [
@@ -21,9 +20,7 @@ const CreateUserPage = () => {
 
   return (
 
-    <Container maxWidth="md" sx={{ minHeight: 'calc(100vh - 64px)', display: 'flex', alignItems: 'center', py: 3}}>
-
-      <SuccessSnackbar open={success} message="¡Cuenta creada con éxito!" />
+    <Container maxWidth="md" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
 
@@ -31,7 +28,7 @@ const CreateUserPage = () => {
           <Typography variant="h5">Crear cuenta</Typography>
         </Box>
 
-        <Box sx={{ p: 7, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+        <Box sx={{ py: 4, px: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
           <ErrorAlert message={error} />
 
@@ -63,7 +60,7 @@ const CreateUserPage = () => {
 
           <Typography variant="body1" align="center" sx={{ mt: 4 }}>
             ¿Ya tienes cuenta?{' '}
-            <Link component={RouterLink} to={PATHS.login}>
+            <Link component={RouterLink} to={PATHS.auth.login}>
               Inicia sesión
             </Link>
           </Typography>

@@ -11,18 +11,17 @@ export const useDetailUser = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const findUser = async () => {
-    if (!userId) return
-    try {
-      setUser(await findUserById(userId))
-    } catch (err) {
-      setError(getErrorMessage(err, 'Error al cargar el perfil'))
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
+    if (!userId) return
+    const findUser = async () => {
+      try {
+        setUser(await findUserById(userId))
+      } catch (err) {
+        setError(getErrorMessage(err, 'Error al cargar el perfil'))
+      } finally {
+        setLoading(false)
+      }
+    }
     findUser()
   }, [userId])
   

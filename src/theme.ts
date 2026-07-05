@@ -3,25 +3,33 @@ import { createTheme } from '@mui/material/styles'
 declare module '@mui/material/styles' {
   interface PaletteColor {
     extralight?: string
+    medium?: string
+    extra?: string
   }
   interface SimplePaletteColorOptions {
     extralight?: string
+    medium?: string
+    extra?: string
   }
 }
 
 const theme = createTheme({
   palette: {
     primary: {
-      extralight: '#ded3e6',
-      light: '#cfc0da',
+      extralight: '#e3d8ec',
+      light: '#d1c2dc',
+      medium: '#b199c0',
       main: '#9f78bc',
       dark: '#835ea0',
     },
     secondary: { main: '#E3E9E4' },
-    success: { main: '#bae0bd' },
-    error: { main: '#c96b6b' }, //c96b6b
+    success: { extra: '#e0eae0', main: '#bae0bd' },
+    error: { 
+      extralight: '#f5d0d0',
+      main: '#c96b6b' 
+    }, //c96b6b
     background: {
-      default: '#fdfdff', // #fbfbfb
+      default: '#faf5f32a', // #fdfdff
       paper: '#ffffff',
     },
   },
@@ -35,7 +43,11 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: theme.palette.primary.extralight,
-          color: theme.palette.getContrastText(theme.palette.primary.extralight!),
+          color: theme.palette.action.active,
+          border: 'none',
+          '& a, & .MuiLink-root, & .MuiButton-root': { transition: 'transform 0.2s' },
+          '& a:hover, & .MuiLink-root:hover, & .MuiButton-root:hover': { transform: 'scale(1.10)' },
+          '& .MuiButton-root:hover': { backgroundColor: 'transparent' },
         }),
       },
     },
@@ -48,6 +60,39 @@ const theme = createTheme({
             backgroundColor: theme.palette.primary.light,
           },
         }),
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          background: theme.palette.primary.light,
+          color: theme.palette.primary.dark,
+          outline: 'none',
+          fontWeight: 700
+        }),
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: ({ theme }) => ({
+          backgroundColor: theme.palette.primary.extralight,
+          color: theme.palette.getContrastText(theme.palette.primary.extralight!),
+        }),
+      },
+    },
+    MuiTooltip: {
+      defaultProps: {
+        disableInteractive: true,
+      },
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: '#efe9f4',
+          color: '#333333',
+          '.MuiTooltip-popper[data-popper-placement*="top"] &': { marginBottom: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="bottom"] &': { marginTop: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="left"] &': { marginRight: '1px' },
+          '.MuiTooltip-popper[data-popper-placement*="right"] &': { marginLeft: '1px' },
+        },
       },
     },
     MuiPaper: {

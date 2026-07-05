@@ -2,15 +2,20 @@ import { Box, Button, TextField, Typography, Paper, Link, Container } from '@mui
 import { Link as RouterLink } from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
+import { sessionStore } from '../../../shared/utils/sessionStore'
 import { PATHS } from '../../../app/routes/paths'
 
 const LoginPage = () => {
+
   const { form, onSubmit, loading, error } = useLogin()
+
   const { register, handleSubmit, formState: { errors } } = form
+  
+  const sessionExpired = sessionStore.wasExpired()
 
   return (
 
-    <Container maxWidth="sm" sx={{ minHeight: 'calc(100vh - 64px)', display: 'flex', alignItems: 'center', py: 3}}>
+    <Container maxWidth="sm" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
 
@@ -18,8 +23,10 @@ const LoginPage = () => {
           <Typography variant="h5" fontWeight={700}>Iniciar sesión</Typography>
         </Box>
 
-        <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+        <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
+          <ErrorAlert severity="warning" message={sessionExpired ? 'Tu sesión ha expirado. Inicia sesión de nuevo.' : null} />
+          
           <ErrorAlert message={error} />
 
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
@@ -52,7 +59,7 @@ const LoginPage = () => {
 
           <Typography variant="body1" align="center" sx={{ mt: 3 }}>
             ¿No tienes cuenta?{' '}
-            <Link component={RouterLink} to={PATHS.register}>
+            <Link component={RouterLink} to={PATHS.user.register}>
               Regístrate
             </Link>
           </Typography>

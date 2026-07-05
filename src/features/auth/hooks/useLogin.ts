@@ -25,8 +25,8 @@ export const useLogin = () => {
     try {
       const auth = await loginApi(data.email, data.password)
       saveSession(auth.token, auth.validUntil, auth.userId)
-      navigate(PATHS.profile)
-    } catch (err: unknown) {
+      navigate(PATHS.quiz.list)
+    } catch (err) {
       setError(getErrorMessage(err, 'Email o contraseña incorrectos'))
     } finally {
       setLoading(false)

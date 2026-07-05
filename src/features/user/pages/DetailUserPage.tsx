@@ -1,5 +1,4 @@
 import { Avatar, Box, Paper, Typography, IconButton, Tooltip, Grid, Container } from '@mui/material'
-import { alpha } from '@mui/material/styles'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
@@ -18,7 +17,7 @@ import InfoField from '../../../shared/components/InfoField'
 const DetailUserPage = () => {
 
   const { user, loading, error } = useDetailUser()
-  const { deactivate, loading: deactivating, error: deactivateError } = useDeactivateUser()
+  const { deactivate, loading: loadingDeactivate, error: deactivateError } = useDeactivateUser()
   const navigate = useNavigate()
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -33,7 +32,7 @@ const DetailUserPage = () => {
         <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
           <Box sx={{ px: 5, py: 5, textAlign: 'center', borderBottom: '1px solid', borderColor: 'divider', backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-            <Avatar sx={(theme) => ({ width: 100, height: 100, fontSize: 45, bgcolor: alpha(theme.palette.primary.main, 0.55), outline: '3px solid', outlineColor: alpha(theme.palette.primary.main, 0.55), outlineOffset: '4px' })}>
+            <Avatar sx={{ width: 100, height: 100, fontSize: 45, boxShadow: (t) => `0 0 0 5px ${t.palette.primary.extralight}, 0 0 0 8px ${t.palette.primary.medium}` }}>
               {user.name.charAt(0).toUpperCase()}
             </Avatar>
             <Typography variant="h5" fontWeight={700}>
@@ -46,7 +45,7 @@ const DetailUserPage = () => {
 
           <Box sx={{ p: 3, display: 'flex', justifyContent: 'center', gap: 2 }}>
             <Tooltip title="Editar perfil">
-              <IconButton color="primary" onClick={() => navigate(PATHS.profileEdit)} sx={{ border: '1px solid', borderColor: 'primary.light', bgcolor: 'background.paper', '&:hover': { bgcolor: 'grey.100' } }}>
+              <IconButton color="primary" onClick={() => navigate(PATHS.user.edit)} sx={{ border: '1px solid', borderColor: 'primary.light', bgcolor: 'background.paper', '&:hover': { bgcolor: 'grey.100' } }}>
                 <EditIcon />
               </IconButton>
             </Tooltip>
@@ -55,8 +54,9 @@ const DetailUserPage = () => {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <ErrorAlert message={deactivateError} />
           </Box>
+          
+          <ErrorAlert message={deactivateError} />
 
         </Paper>
       </Container>
@@ -102,8 +102,8 @@ const DetailUserPage = () => {
         open={openDialog}
         title="¿Quieres desactivar tu cuenta?"
         message="Tu sesión se cerrará y perderás el acceso hasta que un administrador reactive tu cuenta."
-        loading={deactivating}
-        onConfirm={deactivate}
+        loading={loadingDeactivate}
+        onConfirm={ async() => {await deactivate(); setOpenDialog(false)} }
         onClose={() => setOpenDialog(false)}
       />
       

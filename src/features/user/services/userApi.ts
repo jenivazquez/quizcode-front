@@ -13,7 +13,7 @@ export async function updateUser(userId: string, user: UserUpdate): Promise<void
 
 export async function findUserById(userId: string): Promise<UserDetail> {
   const response = await privateApi.get<UserResponse>(`/user/${userId}`)
-  return { ...response.data }
+  return response.data 
 }
 
 export async function deactivateUser(userId: string): Promise<void> {

@@ -18,7 +18,7 @@ const UpdateQuizPage = () => {
   if (!quiz) return <ErrorAlert message={error} />
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container maxWidth="md" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
@@ -28,11 +28,11 @@ const UpdateQuizPage = () => {
 
         <Box sx={{ p: 7 }}>
           
-          <ErrorAlert message={error} />
-
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
             
             <Grid container spacing={3}>
+
+              <ErrorAlert message={error} />
 
               <Grid size={12}>
                 <TextField
@@ -85,7 +85,9 @@ const UpdateQuizPage = () => {
               </Grid>
 
             </Grid>
+
           </Box>
+          
         </Box>
 
       </Paper>

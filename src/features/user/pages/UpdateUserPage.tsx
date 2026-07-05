@@ -7,13 +7,12 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useUpdateUser } from '../hooks/useUpdateUser'
 import { PATHS } from '../../../app/routes/paths'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
-import SuccessSnackbar from '../../../shared/components/SuccessSnackbar'
 import SectionTitle from '../../../shared/components/SectionTitle'
 import PageLoader from '../../../shared/components/PageLoader'
 
 const UpdateUserPage = () => {
 
-  const { form, onSubmit, user, loadingUser, loadingEdit, error, success } = useUpdateUser()
+  const { form, onSubmit, user, loadingUser, loadingEdit, error } = useUpdateUser()
   const { register, handleSubmit, formState: { errors, isDirty } } = form
 
   if (loadingUser) return <PageLoader />
@@ -21,9 +20,7 @@ const UpdateUserPage = () => {
 
   return (
 
-    <Container maxWidth="lg" sx={{ pt: 3 }}>
-
-      <SuccessSnackbar open={success} message="¡Perfil actualizado con éxito!" />
+    <Container maxWidth="lg" sx={{ py: 3 }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
@@ -41,9 +38,9 @@ const UpdateUserPage = () => {
 
       </Paper>
 
-      <ErrorAlert message={error} />
-
       <Paper sx={{ mt: 3, p: 5, borderRadius: 3 }}>
+
+        <ErrorAlert message={error} />
 
         <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
 
@@ -118,8 +115,8 @@ const UpdateUserPage = () => {
           </Grid>
 
           <Box sx={{ mt: 10, display: 'flex', justifyContent: 'center', gap: 2 }}>
-            <Button component={RouterLink} to={PATHS.profile} variant="outlined" size="large" disabled={success}>Cancelar</Button>
-            <Button type="submit" variant="contained" size="large" disabled={loadingEdit || success || !isDirty}>Guardar cambios</Button>
+            <Button component={RouterLink} to={PATHS.user.profile} variant="outlined" size="large" disabled={loadingEdit}>Cancelar</Button>
+            <Button type="submit" variant="contained" size="large" disabled={loadingEdit || !isDirty}>Guardar cambios</Button>
           </Box>
 
         </Box>

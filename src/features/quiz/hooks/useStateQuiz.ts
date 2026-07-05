@@ -13,31 +13,21 @@ export const useStateQuiz = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const publish = async () => {
+  const changeStatus = async (status: QuizStatus) => {
     if (!userId || !quizId) return
     setLoading(true)
     setError(null)
     try {
-      await updateQuizStatus(userId, quizId, QuizStatus.PUBLISHED)
+      await updateQuizStatus(userId, quizId, status)
     } catch (err) {
-      setError(getErrorMessage(err, 'Error al publicar el cuestionario'))
+      setError(getErrorMessage(err, 'Error al cambiar el estado del cuestionario'))
     } finally {
       setLoading(false)
     }
   }
 
-  const unpublish = async () => {
-    if (!userId || !quizId) return
-    setLoading(true)
-    setError(null)
-    try {
-      await updateQuizStatus(userId, quizId, QuizStatus.CREATED)
-    } catch (err) {
-      setError(getErrorMessage(err, 'Error al despublicar el cuestionario'))
-    } finally {
-      setLoading(false)
-    }
-  }
+  const publish   = () => changeStatus(QuizStatus.PUBLISHED)
+  const unpublish  = () => changeStatus(QuizStatus.CREATED)
 
   return { publish, unpublish, loading, error }
 }

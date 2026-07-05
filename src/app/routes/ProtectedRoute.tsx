@@ -4,7 +4,7 @@ import { PATHS } from './paths'
 
 const ProtectedRoute = () => {
   const { isAuth } = useAuth()
-  return isAuth ? <Outlet /> : <Navigate to={PATHS.home} replace />
+  return isAuth ? <Outlet /> : <Navigate to={PATHS.auth.login} replace />
 }
 
 export default ProtectedRoute

@@ -6,6 +6,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import PublishIcon from '@mui/icons-material/Publish'
 import UndoIcon from '@mui/icons-material/Undo'
 import { useState } from 'react'
@@ -27,7 +28,7 @@ const DetailQuizPage = () => {
   const { id: quizId } = useParams<{ id: string }>()
   const { userId } = useAuth()
 
-  const { quiz, loading: loadingQuiz, error, refreshQuiz } = useDetailQuiz()
+  const { quiz, loading: loadingQuiz, error: detailError, refreshQuiz } = useDetailQuiz()
   const { publish, unpublish, loading: loadingState, error: stateError } = useStateQuiz()
   const { remove, loading: loadingDelete, error: deleteError } = useDeleteQuiz()
   const navigate = useNavigate()
@@ -36,16 +37,22 @@ const DetailQuizPage = () => {
   const [openDialogUnpublish, setOpenDialogUnpublish] = useState(false)
   const [openDialogDelete, setOpenDialogDelete] = useState(false)
 
-  if (loadingQuiz) return <PageLoader />
-  if (!quiz || !quizId || !userId) return <ErrorAlert message={error} />
+  if (loadingQuiz && !quiz) return <PageLoader />
+  if (!quiz || !quizId || !userId) return <ErrorAlert message={detailError} />
 
   const isEditable = quiz.status === QuizStatus.CREATED
   const isPublished = quiz.status === QuizStatus.PUBLISHED
+  const isLocked = quiz.status === QuizStatus.LOCKED
+  
   const createdAt = new Date(quiz.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
 
   return (
 
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 3 }}>
+
+      <ErrorAlert message={detailError} />
+      <ErrorAlert message={stateError} />
+      <ErrorAlert message={deleteError} />
 
       <Paper sx={{ borderRadius: 3, mb: 4, overflow: 'hidden' }}>
 
@@ -57,23 +64,27 @@ const DetailQuizPage = () => {
                 Publicar cuestionario
               </Button>
             )}
-            {isPublished && (
-              <Button onClick={() => setOpenDialogUnpublish(true)} disabled={loadingState} startIcon={<UndoIcon/>} sx={{ borderRadius: 0, color: 'error.main', px: 2.5, borderRight: '1px solid', borderColor: 'divider' }}>
-                Despublicar cuestionario
-              </Button>
+            {(isPublished || isLocked) && (
+              <Tooltip title={isLocked ? 'No se puede despublicar un cuestionaro con salas' : ''}>
+                <span style={{ display: 'flex', alignSelf: 'stretch' }}>
+                  <Button onClick={() => setOpenDialogUnpublish(true)} disabled={loadingState || isLocked} startIcon={<UndoIcon/>} sx={{ borderRadius: 0, color: 'error.main', px: 2.5, borderRight: '1px solid', borderColor: 'divider' }}>
+                    Despublicar cuestionario
+                  </Button>
+                </span>
+              </Tooltip>
             )}
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 1.5 }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1, py: 1.5 }}>
             <Typography variant="body1" >Estado:</Typography>
             <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" sx={sxStatusChip[quiz.status]}/>
           </Box>
 
-          <Box sx={{ flex: 1, display: 'flex', alignItems: 'stretch', justifyContent: 'flex-end'}}>
+          <Box sx={{ flex: { sm: 1 }, display: 'flex', alignItems: 'stretch', justifyContent: 'flex-end'}}>
             {isEditable && (
               <Box sx={{ borderLeft: '1px solid', borderColor: 'divider', display: 'flex' }}>
                 <Tooltip title="Modificar cuestionario">
-                  <IconButton onClick={() => navigate(PATHS.update(quizId!))} sx={{ borderRadius: 0, color: 'primary.main', px: 2 }}>
+                  <IconButton onClick={() => navigate(PATHS.quiz.edit(quizId!))} sx={{ borderRadius: 0, color: 'primary.main', px: 2 }}>
                     <EditIcon fontSize="medium" />
                   </IconButton>
                 </Tooltip>
@@ -89,13 +100,17 @@ const DetailQuizPage = () => {
           </Box>
 
         </Box>
-
-
+        
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 5, py: 4, textAlign: 'center', gap: 3, backgroundImage: 'url(/background.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           
           <Typography variant="h5">{quiz.title}</Typography>
 
           <Typography variant="body1" color="text.secondary">{quiz.description}</Typography>
+
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1 }}>
+            <Typography variant="body2" color="text.secondary" fontWeight={500}>Estado:</Typography>
+            <Chip label={STATUS_LABEL[quiz.status]} variant="outlined" sx={sxStatusChip[quiz.status]}/>
+          </Box>
 
           {quiz.hasLimit && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -111,10 +126,26 @@ const DetailQuizPage = () => {
 
         </Box>
 
-        <ErrorAlert message={error ?? stateError ?? deleteError} />
+        {!isEditable && (
+          <Box
+            onClick={() => navigate(PATHS.room.listByQuiz(quizId!))}
+            sx={{
+              display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+              bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider',
+              px: 3, py: 1.5, cursor: 'pointer',
+              '&:hover .nav-label': { textDecoration: 'underline' },
+              '&:hover .nav-arrow': { transform: 'translateX(3px)' },
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography className="nav-label" variant="body2" fontWeight={500} color="primary">Lista de salas del cuestionario</Typography>
+              <ChevronRightIcon className="nav-arrow" fontSize="small" color="primary" sx={{ transition: 'transform 0.15s' }} />
+            </Box>
+          </Box>
+        )}
 
       </Paper>
-      
+
       <ListQuestionSection isEditable={isEditable} />
 
       <ConfirmDialog
@@ -138,9 +169,9 @@ const DetailQuizPage = () => {
       <ConfirmDialog
         open={openDialogDelete}
         title="Eliminar cuestionario"
-        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas y respuestas. Esta acción no se puede deshacer."
+        message="¿Seguro que quieres eliminar este cuestionario? Se eliminarán sus preguntas, salas asociadas y las respuestas. Esta acción no se puede deshacer."
         loading={loadingDelete}
-        onConfirm={async () => { await remove(quizId!); navigate(-1) }}
+        onConfirm={async () => { await remove(quizId!); setOpenDialogDelete(false) }}
         onClose={() => setOpenDialogDelete(false)}
       />
 
