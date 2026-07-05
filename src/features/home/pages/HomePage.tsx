@@ -4,6 +4,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import LoginIcon from '@mui/icons-material/Login'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import QuizIcon from '@mui/icons-material/Quiz'
 import { Link as RouterLink } from 'react-router-dom'
 import { PATHS } from '../../../app/routes/paths'
@@ -45,6 +46,31 @@ const HomePage = () => {
             </Button>
             <Button component={RouterLink} to={PATHS.user.register} variant="outlined" size="large" startIcon={<PersonAddIcon />} sx={{ borderRadius: 1, fontWeight: 600, '& .MuiButton-startIcon': { display: { xs: 'none', sm: 'flex' } } }}>
               Crear cuenta
+            </Button>
+          </Box>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, mt: 1 }}>
+            <Typography variant="caption" color="text.secondary" letterSpacing={1} textTransform="uppercase">
+              ¿Tienes un código de sala?
+            </Typography>
+            <Button
+              component={RouterLink}
+              to={PATHS.room.join}
+              variant="outlined"
+              size="large"
+              startIcon={<MeetingRoomIcon />}
+              sx={{
+                borderRadius: 2,
+                fontWeight: 600,
+                px: 4, py: 1.5,
+                border: 'none',
+                color: 'text.secondary',
+                bgcolor: '#ece7f3',
+                boxShadow: '0 2px 2px rgba(0,0,0,0.20)',
+                '&:hover': { filter: 'brightness(0.96)' }
+              }}
+            >
+              Unirse a una sala
             </Button>
           </Box>
 

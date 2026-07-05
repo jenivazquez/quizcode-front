@@ -31,7 +31,7 @@ export async function deleteQuestion(ownerId: string, quizId: string, questionId
   await privateApi.delete(`/user/${ownerId}/quiz/${quizId}/question/${questionId}`)
 }
 
-export async function generateQuestion(ownerId: string, quizId: string, messages: Message[]): Promise<IAQuestion> {
+export async function generateQuestion(ownerId: string, quizId: string, messages: Message[]): Promise<AIQuestion> {
   const response = await privateApi.post<AIQuestion>(`/user/${ownerId}/quiz/${quizId}/question/generate`, messages)
   return response.data
 }

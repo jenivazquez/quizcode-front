@@ -23,7 +23,7 @@ interface AIChatProps {
 
 const AIChat = ({ questionForm }: AIChatProps) => {
 
-  const { messages, loading, error, send } = useAiChat(questionForm)
+  const { messages, loading, error, onSubmit } = useAiChat(questionForm)
   const [isOpen, setIsOpen] = useState(true)
   const [input, setInput] = useState('')
 
@@ -112,7 +112,7 @@ const AIChat = ({ questionForm }: AIChatProps) => {
           <TextField
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && input.trim()) { e.preventDefault(); setInput(''); send(input.trim()) } }}
+            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && input.trim()) { e.preventDefault(); setInput(''); onSubmit(input.trim()) } }}
             placeholder='Escribe tu mensaje...'
             fullWidth
             size='small'
@@ -127,7 +127,7 @@ const AIChat = ({ questionForm }: AIChatProps) => {
             }}
           />
 
-          <Button disableElevation variant='contained' onClick={() => { setInput(''); send(input.trim()) }} disabled={!input.trim() || loading} sx={{ minWidth: 0, px: 1.5, alignSelf: 'stretch', borderRadius: '0 4px 4px 0', color: 'primary.dark' }} >
+          <Button disableElevation variant='contained' onClick={() => { setInput(''); onSubmit(input.trim()) }} disabled={!input.trim() || loading} sx={{ minWidth: 0, px: 1.5, alignSelf: 'stretch', borderRadius: '0 4px 4px 0', color: 'primary.dark' }} >
             <SendIcon fontSize='small' />
           </Button>
 

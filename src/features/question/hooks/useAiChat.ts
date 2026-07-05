@@ -27,11 +27,12 @@ export const useAiChat = (form: UseFormReturn<QuestionFormData>) => {
 
   const onSubmit = async (userMessage: string) => {
     if (!userId || !quizId) return
-    setHistory([ ...history, { role: 'user', content: userMessage } ])
+    const newHistory: Message[] = [...history, { role: 'user', content: userMessage }]
+    setHistory(newHistory)
     setLoading(true)
     setError(null)
     try {
-      const aiQuestion = await generateQuestion(userId, quizId, history)
+      const aiQuestion = await generateQuestion(userId, quizId, newHistory)
       updateQuestionForm(aiQuestion, form)
       setHistory(prev => [...prev, { role: 'assistant', content: JSON.stringify(aiQuestion) }])
     } catch (err) {
