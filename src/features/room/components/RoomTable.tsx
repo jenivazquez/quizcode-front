@@ -179,7 +179,7 @@ const RoomTable = ({ rooms, quizId, onDeleteSuccess }: RoomTableProps) => {
         title="Eliminar sala"
         message="¿Seguro que quieres eliminar esta sala? Se eliminarán todas las participaciones asociadas. Esta acción no se puede deshacer."
         loading={loadingDelete}
-        onConfirm={async () => { await remove(roomToDelete!.quizId, roomToDelete!.roomId); onDeleteSuccess(); setRoomToDelete(null) }}
+        onConfirm={async () => { const ok = await remove(roomToDelete!.quizId, roomToDelete!.roomId); setRoomToDelete(null); if (ok) onDeleteSuccess() }}
         onClose={() => setRoomToDelete(null)}
       />
 
