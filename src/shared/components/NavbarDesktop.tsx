@@ -1,9 +1,10 @@
 import { Box, Tooltip, Link, Menu, MenuItem, Divider, ListItemIcon, Avatar, Typography, Button } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
 import LoginIcon from '@mui/icons-material/Login'
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
+import AddToQueueIcon from '@mui/icons-material/AddToQueue'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import ListAltIcon from '@mui/icons-material/ListAlt'
 import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
 import { PATHS } from '../../app/routes/paths'
@@ -23,10 +24,6 @@ const NavbarDesktop = () => {
   return (
 
     <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center' }}>
-
-      <Button component={RouterLink} to={PATHS.room.join} color="inherit" startIcon={<MeetingRoomIcon />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}>
-        Unirse a sala
-      </Button>
 
       {isAuth ? (
         <>
@@ -67,7 +64,7 @@ const NavbarDesktop = () => {
             </MenuItem>
             
             <MenuItem component={RouterLink} to={PATHS.room.list} onClick={close}>
-              <ListItemIcon><FormatListBulletedIcon fontSize="small" /></ListItemIcon>
+              <ListItemIcon><ListAltIcon fontSize="small" /></ListItemIcon>
               Mis salas
             </MenuItem>
 
@@ -84,9 +81,17 @@ const NavbarDesktop = () => {
 
       ) : (
 
-        <Button component={RouterLink} to={PATHS.auth.login} color="inherit" startIcon={<LoginIcon fontSize="large" />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem' }}>
-          Acceder
-        </Button>
+        <>
+        
+          <Button component={RouterLink} to={PATHS.room.join} startIcon={<AddToQueueIcon />} sx={{ mx: 4, fontWeight: 700, textTransform: 'none', fontSize: '1rem', color: 'primary.dark' }}>
+          ¡Únete a una sala!
+          </Button>
+
+          <Button component={RouterLink} to={PATHS.auth.login} startIcon={<LoginIcon />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem', color: 'primary.dark' }}>
+          Iniciar sesión
+          </Button>
+
+        </>
 
       )}
 

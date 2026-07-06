@@ -72,7 +72,9 @@ const ListPartSection = ({ room }: ListPartSectionProps) => {
 
                 const isPartInProgress = part.status === PartStatus.STARTED
                 const { box: boxColor, text: textColor } = getPartColors(index, isPartInProgress)
-                const { label: reviewLabel, color: reviewColor, icon: ReviewIcon } = REVIEW_STATUS[room.reviewed ? 'ROOM_REVIEWED' : part.reviewStatus]
+                const { label: reviewLabel, color: reviewColor, icon: ReviewIcon } = isPartInProgress
+                  ? REVIEW_STATUS.PENDING
+                  : REVIEW_STATUS[room.reviewed ? 'ROOM_REVIEWED' : part.reviewStatus]
 
                 return (
                   <Grow key={part.id} in timeout={400 + index * 80}>

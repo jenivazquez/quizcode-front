@@ -38,7 +38,7 @@ export const useCreateQuiz = () => {
       await createQuiz(userId, buildQuiz(data))
       navigate(PATHS.quiz.list)
     } catch (err) {
-      setError(getErrorMessage(err, 'Error al crear el quiz'))
+      setError(getErrorMessage(err, 'Error al crear el cuestionario'))
     } finally {
       setLoading(false)
     }
