@@ -32,7 +32,7 @@ const JoinRoomPage = () => {
             ¡Únete a la sala!
           </Typography>
 
-          <ErrorAlert message={error} />
+          <ErrorAlert message={error} sx={{ mb: 0 }} />
 
           <TextField
             placeholder='CÓDIGO DE LA SALA'

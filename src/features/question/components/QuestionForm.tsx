@@ -72,7 +72,7 @@ const QuestionForm = ({ form, onSubmit, loading, error, isUpdating, onCancel }: 
 
           <Grid container spacing={2}>
 
-            <ErrorAlert message={error} />
+            <ErrorAlert message={error} sx={{ mb: 0 }} />
 
             <Grid size={8}>
               <Controller

@@ -28,7 +28,7 @@ const CreateQuizPage = () => {
 
             <Grid container spacing={3}>
 
-              <ErrorAlert message={error} />
+              <ErrorAlert message={error} sx={{ mb: 0 }} />
 
               <Grid size={12}>
                 <TextField

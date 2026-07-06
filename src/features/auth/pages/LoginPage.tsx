@@ -25,9 +25,9 @@ const LoginPage = () => {
 
         <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
-          <ErrorAlert severity="warning" message={sessionExpired ? 'Tu sesión ha expirado. Inicia sesión de nuevo.' : null} />
+          <ErrorAlert severity="warning" message={sessionExpired ? 'Tu sesión ha expirado. Inicia sesión de nuevo.' : null} sx={{ mb: 0 }} />
           
-          <ErrorAlert message={error} />
+          <ErrorAlert message={error} sx={{ mb: 0 }}/>
 
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
 

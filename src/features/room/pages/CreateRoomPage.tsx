@@ -39,7 +39,7 @@ const CreateRoomPage = () => {
 
             <Grid container spacing={3}>
 
-              <ErrorAlert message={error} />
+              <ErrorAlert message={error} sx={{ mb: 0 }} />
 
               {!loadingQuizzes && !hasQuizzesPublished && (
                 <Grid size={12}>
