@@ -7,7 +7,7 @@ import { QuizStatus } from '../types/quiz'
 
 export const useStateQuiz = () => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [loading, setLoading] = useState(false)

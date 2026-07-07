@@ -21,7 +21,7 @@ import { useDetailRoom } from '../../room/hooks/useDetailRoom'
 import { useDetailPartOwner } from '../hooks/useDetailPartOwner'
 import { useDeletePart } from '../hooks/useDeletePart'
 import { useReviewPart } from '../hooks/useReviewPart'
-import { useListQuestionsToReview } from '../../question/hooks/useListQuestionsToReview'
+import { useListQuestions } from '../../question/hooks/useListQuestions'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
 import { REVIEW_STATUS } from '../constants/participationConstants'
@@ -35,7 +35,7 @@ const DetailPartOwnerPage = () => {
 
   const { room, loading: loadingRoom, error: roomError } = useDetailRoom()
   const { part, loading: loadingPart, error: partError, refreshPart } = useDetailPartOwner()
-  const { questions, loading: loadingQuestions, error: questionsError } = useListQuestionsToReview(room?.quizId)
+  const { questions, loading: loadingQuestions, error: questionsError } = useListQuestions()
   const { remove, loading: loadingDelete, error: deleteError } = useDeletePart()
   const { isEditing, reviewData, initEdit, onCancel, updateField, onSubmit, loading: loadingReview, error: reviewError } = useReviewPart(questions ?? [], part)
 

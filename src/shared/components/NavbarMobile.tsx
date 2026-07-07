@@ -10,13 +10,15 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
 import { PATHS } from '../../app/routes/paths'
 import { useAuth } from '../hooks/useAuth'
-import { useLogout } from '../hooks/useLogout'
+import { useLogoutUser } from '../hooks/useLogoutUser'
+import { useLogoutPart } from '../hooks/useLogoutPart'
 import { useDetailUser } from '../../features/user/hooks/useDetailUser'
 
 const NavbarMobile = () => {
-  
-  const { isAuth } = useAuth()
-  const { logout } = useLogout()
+
+  const { isAuthUser, isAuthPart } = useAuth()
+  const { logout } = useLogoutUser()
+  const { logout: logoutPart } = useLogoutPart()
   const { user } = useDetailUser()
 
   const [open, setOpen] = useState(false)
@@ -33,7 +35,7 @@ const NavbarMobile = () => {
 
         <List sx={{ width: 250, pt: 2 }} disablePadding>
 
-          {isAuth ? (
+          {isAuthUser ? (
             <>
 
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 2, pb: 2, pt: 1 }}>
@@ -83,6 +85,15 @@ const NavbarMobile = () => {
               </ListItem>
 
             </>
+          ) : isAuthPart ? (
+
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => { logoutPart(); close() }}>
+                <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
+                <ListItemText primary="Cerrar sesión" />
+              </ListItemButton>
+            </ListItem>
+
           ) : (
             <>
 

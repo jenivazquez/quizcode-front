@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { submitAnswers } from '../services/participationApi'
+import { useAuth } from '../../../shared/hooks/useAuth'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
+import { PartStatus } from '../types/participation'
 import type { QuestionDetail } from '../../question/types/question'
 import type { AnswerSubmit } from '../types/participation'
 
@@ -17,6 +19,7 @@ export const useSubmitAnswers = (questions: QuestionDetail[]) => {
 
   const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
   const navigate = useNavigate()
+  const { updateStatusPart } = useAuth()
 
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState<string | null>(null)
@@ -47,6 +50,7 @@ export const useSubmitAnswers = (questions: QuestionDetail[]) => {
     setError(null)
     try {
       await submitAnswers(roomId, partId, Object.values(answers))
+      updateStatusPart(PartStatus.FINISHED)
       if (redirect) navigate(PATHS.part.ranking(roomId, partId))
     } catch (err) {
       setError(getErrorMessage(err, 'Error al enviar las respuestas'))

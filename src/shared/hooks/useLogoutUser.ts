@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from './useAuth'
 import { PATHS } from '../../app/routes/paths'
 
-export const useLogout = () => {
+export const useLogoutUser = () => {
 
-  const { clearSession } = useAuth()
+  const { clearSessionUser } = useAuth()
   const navigate = useNavigate()
   
   const logout = () => {
-    clearSession()
-    navigate(PATHS.auth.login)
+    clearSessionUser()
+    navigate(PATHS.home.root)
   }
 
   return { logout }

@@ -18,7 +18,7 @@ const updateQuestionForm = (aiQuestion: AIQuestion, form: UseFormReturn<Question
 
 export const useAiChat = (form: UseFormReturn<QuestionFormData>) => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [history, setHistory] = useState<Message[]>([])

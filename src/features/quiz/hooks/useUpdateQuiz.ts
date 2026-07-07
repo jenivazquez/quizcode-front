@@ -19,7 +19,7 @@ const buildQuiz = (data: QuizFormData): QuizUpdate => ({
 export const useUpdateQuiz = () => {
 
   const { userId } = useAuth()
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
 
   const { quiz, loading: loadingQuiz } = useDetailQuiz()
   const navigate = useNavigate()

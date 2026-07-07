@@ -7,14 +7,14 @@ import type { PartRankingDetail } from '../types/participation'
 
 export const useRankingPart = (autoLoop = true) => {
 
-  const { roomId } = useParams<{ roomId: string }>()
+  const { roomId, partId } = useParams<{ roomId: string, partId: string }>()
 
   const [ranking, setRanking] = useState<PartRankingDetail[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!roomId) return
+    if (!roomId || !partId) return
     const findRanking = async () => {
       try {
         setRanking(await findPartsRanking(roomId))
@@ -28,7 +28,7 @@ export const useRankingPart = (autoLoop = true) => {
     if (!autoLoop) return
     const interval = setInterval(findRanking, INTERVAL_RANKING_MS)
     return () => clearInterval(interval)
-  }, [roomId, autoLoop])
+  }, [roomId, partId, autoLoop])
 
   return { ranking, loading, error }
 }

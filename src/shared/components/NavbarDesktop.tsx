@@ -9,13 +9,15 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useState } from 'react'
 import { PATHS } from '../../app/routes/paths'
 import { useAuth } from '../hooks/useAuth'
-import { useLogout } from '../hooks/useLogout'
+import { useLogoutUser } from '../hooks/useLogoutUser'
+import { useLogoutPart } from '../hooks/useLogoutPart'
 import { useDetailUser } from '../../features/user/hooks/useDetailUser'
 
 const NavbarDesktop = () => {
 
-  const { isAuth } = useAuth()
-  const { logout } = useLogout()
+  const { isAuthUser, isAuthPart } = useAuth()
+  const { logout: logoutUser } = useLogoutUser()
+  const { logout: logoutPart } = useLogoutPart()
   const { user } = useDetailUser()
   
   const [anchor, setAnchor] = useState<null | HTMLElement>(null)
@@ -25,7 +27,7 @@ const NavbarDesktop = () => {
 
     <Box sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center' }}>
 
-      {isAuth ? (
+      {isAuthUser ? (
         <>
           <Tooltip title="Menú">
             <Link component="button" onClick={(e) => setAnchor(e.currentTarget)} underline="none" sx={{ display: 'flex', alignItems: 'center', mx: 2 }}>
@@ -70,7 +72,7 @@ const NavbarDesktop = () => {
 
             <Divider/>
             
-            <MenuItem onClick={() => { logout(); close() }}>
+            <MenuItem onClick={() => { logoutUser(); close() }}>
               <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
               Cerrar sesión
             </MenuItem>
@@ -79,10 +81,16 @@ const NavbarDesktop = () => {
 
         </>
 
+      ) : isAuthPart ? (
+
+        <Button onClick={logoutPart} startIcon={<LogoutIcon />} sx={{ mx: 1, fontWeight: 700, textTransform: 'none', fontSize: '1rem', color: 'primary.dark' }}>
+        Cerrar sesión
+        </Button>
+
       ) : (
 
         <>
-        
+
           <Button component={RouterLink} to={PATHS.room.join} startIcon={<AddToQueueIcon />} sx={{ mx: 4, fontWeight: 700, textTransform: 'none', fontSize: '1rem', color: 'primary.dark' }}>
           ¡Únete a una sala!
           </Button>

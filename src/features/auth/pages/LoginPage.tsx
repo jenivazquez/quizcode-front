@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography, Paper, Link, Container } from '@mui
 import { Link as RouterLink } from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
-import { sessionStore } from '../../../shared/utils/sessionStore'
+import { userSessionStore } from '../../../shared/session/userSessionStore'
 import { PATHS } from '../../../app/routes/paths'
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const { register, handleSubmit, formState: { errors } } = form
   
-  const sessionExpired = sessionStore.wasExpired()
+  const sessionExpired = userSessionStore.wasExpired()
 
   return (
 

@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 import type { RouteObject } from 'react-router-dom'
-import GuestRoute from '../../../app/routes/GuestRoute'
+import GuestRoute from '../../../app/routes/guards/GuestRoute'
 import { AUTH_PATHS as paths} from './authPaths'
 
 const LoginPage = lazy(() => import('../pages/LoginPage'))

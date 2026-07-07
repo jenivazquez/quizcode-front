@@ -12,7 +12,7 @@ export const useLogin = () => {
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { saveSession } = useAuth()
+  const { saveSessionUser } = useAuth()
   const navigate = useNavigate()
 
   const form = useForm<LoginFormData>({
@@ -24,7 +24,7 @@ export const useLogin = () => {
     setError(null)
     try {
       const auth = await loginApi(data.email, data.password)
-      saveSession(auth.token, auth.validUntil, auth.userId)
+      saveSessionUser(auth.token, auth.validUntil, auth.userId)
       navigate(PATHS.quiz.list)
     } catch (err) {
       setError(getErrorMessage(err, 'Email o contraseña incorrectos'))

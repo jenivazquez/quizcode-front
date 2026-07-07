@@ -2,11 +2,14 @@ import { Box, TextField, Button, Typography, Paper } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useJoinRoom } from '../hooks/useJoinRoom'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
+import { partSessionStore } from '../../../shared/session/partSessionStore'
 
 const JoinRoomPage = () => {
 
   const { form, onSubmit, loading, error } = useJoinRoom()
   const { register, handleSubmit, formState: { errors } } = form
+
+  const partExpired = partSessionStore.wasExpired()
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: { xs: 2, sm: 4 }, background: 'linear-gradient(to bottom, #faf5f3 0%, #faf5f3 26%, #f3faf8 46%, #f3faf8 58%, #f7f5fd 78%, #f7f5fd 100%)' }}>
@@ -26,11 +29,13 @@ const JoinRoomPage = () => {
 
         </Box>
 
-        <Box component='form' onSubmit={handleSubmit(onSubmit)} sx={{ flex: 1, px: { xs: 4, sm: 6 }, py: { xs: 8, sm: 8 }, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 3 }}>
+        <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)} sx={{ flex: 1, px: { xs: 4, sm: 6 }, py: { xs: 8, sm: 8 }, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 3 }}>
 
           <Typography variant='h4' fontWeight={600} color='primary.main' textAlign='center' letterSpacing='0.05em' sx={{ mb: 3, opacity: 0.80 }}>
             ¡Únete a la sala!
           </Typography>
+
+          <ErrorAlert severity="warning" message={partExpired ? 'Tu sesión ha expirado. Vuelve a unirte a la sala.' : null} sx={{ mb: 0 }} />
 
           <ErrorAlert message={error} sx={{ mb: 0 }} />
 

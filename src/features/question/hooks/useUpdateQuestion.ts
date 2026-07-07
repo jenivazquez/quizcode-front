@@ -22,7 +22,7 @@ const buildPayload = (data: QuestionFormData, order: number): QuestionUpdate => 
 
 export const useUpdateQuestion = (question: QuestionDetail, onSuccess: () => void) => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [loading, setLoading] = useState(false)
