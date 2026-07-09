@@ -10,6 +10,12 @@ const JoinRoomPage = () => {
   const { register, handleSubmit, formState: { errors } } = form
 
   const partExpired = partSessionStore.wasExpired()
+  const partDeleted = partSessionStore.wasDeleted()
+
+  const sessionMessage =
+    partExpired ? 'Tu sesión ha expirado. Vuelve a unirte a la sala.'
+      : partDeleted ? 'La sala o tu participación han sido eliminadas. Únete de nuevo o ponte en contacto con el organizador.'
+        : null
 
   return (
     <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: { xs: 2, sm: 4 }, background: 'linear-gradient(to bottom, #faf5f3 0%, #faf5f3 26%, #f3faf8 46%, #f3faf8 58%, #f7f5fd 78%, #f7f5fd 100%)' }}>
@@ -35,7 +41,7 @@ const JoinRoomPage = () => {
             ¡Únete a la sala!
           </Typography>
 
-          <ErrorAlert severity="warning" message={partExpired ? 'Tu sesión ha expirado. Vuelve a unirte a la sala.' : null} sx={{ mb: 0 }} />
+          <ErrorAlert severity="warning" message={sessionMessage} sx={{ mb: 0 }} />
 
           <ErrorAlert message={error} sx={{ mb: 0 }} />
 

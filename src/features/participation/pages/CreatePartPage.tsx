@@ -10,6 +10,8 @@ import { useDetailRoomToAnswer } from '../../room/hooks/useDetailRoomToAnswer'
 import { useDetailQuizToAnswer } from '../../quiz/hooks/useDetailQuizToAnswer'
 import { PART_PATHS } from '../routes/participationPaths'
 import { Link as RouterLink } from 'react-router-dom'
+import { RoomStatus } from '../../room/types/room'
+import { STATUS_LABEL } from '../../room/constants/roomConstants'
 
 const CreatePartPage = () => {
 
@@ -31,7 +33,7 @@ const CreatePartPage = () => {
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
-        <QuizHeader quiz={quiz} />
+        <QuizHeader quiz={quiz} room={room} />
 
         <Divider />
 
@@ -47,11 +49,17 @@ const CreatePartPage = () => {
             </Box>
           </Box>
 
-          <ErrorAlert message={error} />
-
           <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
 
             <Grid container spacing={3} sx={{ mt: 6 }}>
+
+              {room.status !== RoomStatus.OPENED && 
+                <ErrorAlert severity='warning' sx={{mb: 0}}
+                  message={`La sala está ${STATUS_LABEL[room.status].toLowerCase()} y no puedes acceder al cuestionario. Si ya participaste, accede con tus datos para ver los resultados.`}
+                />
+              }
+
+              <ErrorAlert message={error}  sx={{mb: 0}}/>
 
               <Grid size={12}>
                 <TextField 

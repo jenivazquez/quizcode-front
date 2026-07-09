@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const LoginPartSchema = z.object({
 
-  username: z.string()
+  username: z.string().trim()
     .min(1, { message: 'El nombre de usuario es obligatorio' }),
 
   password: z.string()

@@ -3,7 +3,7 @@ import { NAME_PATTERN, LETTER_PATTERN, NUMBER_PATTERN } from '../constants/parti
 
 export const CreatePartSchema = z.object({
 
-  username: z.string()
+  username: z.string().trim()
     .min(1, { message: 'El nombre de usuario es obligatorio' })
     .max(20, { message: 'El nombre de usuario no puede superar los 20 caracteres' })
     .regex(NAME_PATTERN, { message: 'El nombre contiene caracteres inválidos' }),

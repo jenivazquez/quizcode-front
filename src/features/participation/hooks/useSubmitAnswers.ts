@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { submitAnswers } from '../services/participationApi'
 import { useAuth } from '../../../shared/hooks/useAuth'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
+import { getErrorStatus } from '../../../shared/utils/getErrorStatus'
+import { partSessionStore } from '../../../shared/session/partSessionStore'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
 import { PartStatus } from '../types/participation'
@@ -53,6 +55,7 @@ export const useSubmitAnswers = (questions: QuestionDetail[]) => {
       updateStatusPart(PartStatus.FINISHED)
       if (redirect) navigate(PATHS.part.ranking(roomId, partId))
     } catch (err) {
+      if (getErrorStatus(err) === 404) { partSessionStore.clear('deleted') }
       setError(getErrorMessage(err, 'Error al enviar las respuestas'))
       setLoading(false)
     }

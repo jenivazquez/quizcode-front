@@ -126,7 +126,7 @@ const DetailPartOwnerPage = () => {
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 3, p: 2, borderRadius: 2, border: '1px solid', borderColor: 'primary.light', bgcolor: theme => alpha(theme.palette.primary.main, 0.04) }}>
           <InfoOutlinedIcon sx={{ color: 'primary.main', fontSize: 20, mt: 0.1, flexShrink: 0 }} />
           <Typography variant='body2' color='text.secondary'>
-            A continuación, puedes <strong>modificar</strong> la corrección realizada por la IA. Las preguntas tipo test solo permiten añadir un comentario, pero en el resto de preguntas puedes cambiar también la puntuación.
+            A continuación, puedes <strong>modificar</strong> la corrección realizada por la IA: ajustar la puntuación, marcar la respuesta como correcta o incorrecta y añadir un comentario.
           </Typography>
         </Box>
       )}

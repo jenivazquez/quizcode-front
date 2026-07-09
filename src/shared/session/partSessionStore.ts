@@ -5,7 +5,9 @@ type Listener = () => void
 const listeners = new Set<Listener>()
 const notify = () => listeners.forEach((l) => l())
 
-let _expired = false
+type ClearReason = 'expired' | 'deleted'
+
+let _clearReason: ClearReason | null = null
 
 const notExpired = (validUntil: string | null): boolean => Boolean(validUntil && new Date(validUntil) > new Date())
 
@@ -35,10 +37,12 @@ export const partSessionStore = {
 
   getToken: (): string | null => getSessionStoragePart().token,
 
-  wasExpired: () => _expired,
+  wasExpired: () => _clearReason === 'expired',
+
+  wasDeleted: () => _clearReason === 'deleted',
 
   save: (roomId: string, partId: string, token: string, validUntil: string, status: PartStatus) => {
-    _expired = false
+    _clearReason = null
     setSessionStoragePart(roomId, partId, token, validUntil, status)
     notify()
   },
@@ -48,8 +52,8 @@ export const partSessionStore = {
     notify()
   },
 
-  clear: (expired = false) => {
-    _expired = expired
+  clear: (reason?: ClearReason) => {
+    _clearReason = reason ?? null
     clearSessionStoragePart()
     notify()
   },

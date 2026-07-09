@@ -10,7 +10,7 @@ export const privateApiPart = axios.create({
 privateApiPart.interceptors.request.use(
   (config) => {
     if (!partSessionStore.getIsAuth()) {
-      partSessionStore.clear(true)
+      partSessionStore.clear('expired')
       return Promise.reject('Sesión de participación expirada')
     }
     config.headers.Authorization = `Bearer ${partSessionStore.getToken()}`
@@ -21,7 +21,7 @@ privateApiPart.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      partSessionStore.clear(true)
+      partSessionStore.clear('expired')
     }
     return Promise.reject(error)
   }

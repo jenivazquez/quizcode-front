@@ -34,6 +34,7 @@ export const useAiChat = (form: UseFormReturn<QuestionFormData>) => {
     try {
       const aiQuestion = await generateQuestion(userId, quizId, newHistory)
       updateQuestionForm(aiQuestion, form)
+      await form.trigger()
       setHistory(prev => [...prev, { role: 'assistant', content: JSON.stringify(aiQuestion) }])
     } catch (err) {
       setError(getErrorMessage(err, 'Error al generar la pregunta'))

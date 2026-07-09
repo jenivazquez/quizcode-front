@@ -6,6 +6,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
 } from '@mui/material'
 import AnswerCodeEditor from '../../../shared/components/AnswerCodeEditor'
+import CodeViewer from '../../../shared/components/CodeViewer'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined'
 import SendIcon from '@mui/icons-material/Send'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
@@ -103,16 +104,27 @@ const AnswerQuizPartPage = () => {
 
               <Box sx={{ px: { xs: 3, sm: 4 }, py: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
 
+                {question.baseCode && (
+                  question.type === QuestionType.EDIT_CODE ? (
+                    <AnswerCodeEditor
+                      value={answers[question.id]?.writtenAnswer ?? question.baseCode ?? ''}
+                      onChange={value => handleAnswer(question.id, question.type, value)}
+                    />
+                  ) : (
+                    <CodeViewer value={question.baseCode} />
+                  )
+                )}
+
                 {question.type === QuestionType.SINGLE_CHOICE && (
-                  <RadioGroup 
-                    value={answers[question.id]?.codeOptions?.[0] ?? ''} 
+                  <RadioGroup
+                    value={answers[question.id]?.codeOptions?.[0] ?? ''}
                     onChange={e => handleAnswer(question.id, question.type, e.target.value)}>
                     {question.options?.map(option => (
-                      <FormControlLabel 
-                        key={option.code} 
-                        label={`${option.code}. ${option.value}`} 
-                        value={option.code} 
-                        control={ <Radio sx={{ color: 'grey.600', '&.Mui-checked': { color: 'grey.700' } }} /> } 
+                      <FormControlLabel
+                        key={option.code}
+                        label={`${option.code}. ${option.value}`}
+                        value={option.code}
+                        control={ <Radio sx={{ color: 'grey.600', '&.Mui-checked': { color: 'grey.700' } }} /> }
                       />
                     ))}
                   </RadioGroup>
@@ -134,13 +146,6 @@ const AnswerQuizPartPage = () => {
                       />
                     ))}
                   </Box>
-                )}
-
-                {question.baseCode && (
-                  <AnswerCodeEditor
-                    value={answers[question.id]?.writtenAnswer ?? question.baseCode ?? ''}
-                    onChange={value => handleAnswer(question.id, question.type, value)}
-                  />
                 )}
 
               </Box>

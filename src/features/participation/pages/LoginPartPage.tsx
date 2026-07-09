@@ -28,7 +28,7 @@ const LoginPartPage = () => {
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
-        <QuizHeader quiz={quiz} />
+        <QuizHeader quiz={quiz} room={room} />
 
         <Divider />
 

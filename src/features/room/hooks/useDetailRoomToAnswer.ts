@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { findRoomByIdToAnswer } from '../services/roomApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
+import { getErrorStatus } from '../../../shared/utils/getErrorStatus'
+import { partSessionStore } from '../../../shared/session/partSessionStore'
 import type { QuizRoomDetail } from '../types/room'
 import { useParams } from 'react-router-dom'
 import { INTERVAL_RANKING_MS } from '../../participation/constants/participationConstants'
@@ -15,11 +17,13 @@ export const useDetailRoomToAnswer = (autoLoop?: boolean) => {
 
   useEffect(() => {
     if (!roomId) return
+    let intervalId: ReturnType<typeof setInterval> | undefined = undefined
     const findRoom = async () => {
       setError(null)
       try {
         setRoom(await findRoomByIdToAnswer(roomId))
       } catch (err) {
+        if (getErrorStatus(err) === 404) { clearInterval(intervalId); partSessionStore.clear('deleted') }
         setError(getErrorMessage(err, 'Error al cargar la sala'))
       } finally {
         setLoading(false)
@@ -27,8 +31,8 @@ export const useDetailRoomToAnswer = (autoLoop?: boolean) => {
     }
     findRoom()
     if (!autoLoop || room?.reviewed) return
-    const interval = setInterval(findRoom, INTERVAL_RANKING_MS)
-    return () => clearInterval(interval)
+    intervalId = setInterval(findRoom, INTERVAL_RANKING_MS)
+    return () => clearInterval(intervalId)
   }, [roomId, autoLoop, room?.reviewed])
 
   return { room, loading, error }

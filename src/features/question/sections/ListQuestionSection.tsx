@@ -65,7 +65,7 @@ const ListQuestionSection = ({ isEditable }: ListQuestionSectionProps) => {
                 </Box>
                 <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', px: 2, py: { xs: 1, md: 0 }, borderBottom: { xs: '1px solid #dadada', md: 0 }, borderRight: { xs: 0, md: '1px solid #dadada' }}}>
                   <Typography variant="caption" fontWeight={600} color="primary.main" textAlign="center">
-                    {question.score} puntos
+                    {question.score} {question.score === 1 ? 'punto' : 'puntos'}
                   </Typography>
                 </Box>
               </Box>
