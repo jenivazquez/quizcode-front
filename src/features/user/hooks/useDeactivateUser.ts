@@ -6,7 +6,7 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { PATHS } from '../../../app/routes/paths'
 
 export const useDeactivateUser = () => {
-  const { userId, clearSession } = useAuth()
+  const { userId, clearSessionUser } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -17,7 +17,7 @@ export const useDeactivateUser = () => {
     setError(null)
     try {
       await deactivateUser(userId)
-      clearSession()
+      clearSessionUser()
       navigate(PATHS.auth.login)
     } catch (err) {
       setError(getErrorMessage(err, 'Error al desactivar la cuenta'))

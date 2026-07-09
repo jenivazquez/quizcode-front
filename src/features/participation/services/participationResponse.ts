@@ -31,9 +31,13 @@ export interface PartRankingResponse {
 
 export interface IdPartResponse {
   id: string
+  token: string
+  validUntil: string
 }
 
 export interface LoginPartResponse {
   id: string
   status: PartStatus
+  token: string
+  validUntil: string
 }

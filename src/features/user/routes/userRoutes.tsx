@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import type { RouteObject } from 'react-router-dom'
-import ProtectedRoute from '../../../app/routes/ProtectedRoute'
-import GuestRoute from '../../../app/routes/GuestRoute'
+import ProtectedRouteUser from '../../../app/routes/guards/ProtectedRouteUser'
+import GuestRoute from '../../../app/routes/guards/GuestRoute'
 import { USER_PATHS as paths } from './userPaths'
 
 const CreateUserPage = lazy(() => import('../pages/CreateUserPage'))
@@ -16,7 +16,7 @@ export const userRoutes: RouteObject[] = [
     ],
   },
   {
-    element: <ProtectedRoute />,
+    element: <ProtectedRouteUser />,
     children: [
       { path: paths.profile, element: <DetailUserPage /> },
       { path: paths.edit, element: <UpdateUserPage /> },

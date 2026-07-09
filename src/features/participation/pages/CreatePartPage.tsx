@@ -7,28 +7,33 @@ import ErrorAlert from '../../../shared/components/ErrorAlert'
 import PageLoader from '../../../shared/components/PageLoader'
 import { useCreatePart } from '../hooks/useCreatePart'
 import { useDetailRoomToAnswer } from '../../room/hooks/useDetailRoomToAnswer'
+import { useDetailQuizToAnswer } from '../../quiz/hooks/useDetailQuizToAnswer'
 import { PART_PATHS } from '../routes/participationPaths'
 import { Link as RouterLink } from 'react-router-dom'
+import { RoomStatus } from '../../room/types/room'
+import { STATUS_LABEL } from '../../room/constants/roomConstants'
 
 const CreatePartPage = () => {
 
   const { roomId } = useParams<{ roomId: string }>()
 
-  const { room, loading: loadingRoom, error: detailError } = useDetailRoomToAnswer()
+  const { room, loading: loadingRoom, error: detailRoomError } = useDetailRoomToAnswer()
+  const { quiz, loading: loadingQuiz, error: detailQuizError } = useDetailQuizToAnswer(room?.quizId)
   const { form, onSubmit, loading: loadingCreate, error } = useCreatePart()
 
   const { register, handleSubmit, formState: { errors } } = form
 
-  if (loadingRoom) return <PageLoader />
-  if (!room) return <ErrorAlert message={detailError} />
+  if (loadingRoom || loadingQuiz) return <PageLoader />
+  if (!room) return <ErrorAlert message={detailRoomError} />
+  if (!quiz) return <ErrorAlert message={detailQuizError} />
 
   return (
-    
-    <Container maxWidth='lg' sx={{ py: 3 }}>
+
+    <Container maxWidth='lg' sx={{ py: { xs: 3, sm: 4 } }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
-        <QuizHeader quizId={room.quizId} />
+        <QuizHeader quiz={quiz} room={room} />
 
         <Divider />
 
@@ -44,11 +49,17 @@ const CreatePartPage = () => {
             </Box>
           </Box>
 
-          <ErrorAlert message={error} />
-
           <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
 
             <Grid container spacing={3} sx={{ mt: 6 }}>
+
+              {room.status !== RoomStatus.OPENED && 
+                <ErrorAlert severity='warning' sx={{mb: 0}}
+                  message={`La sala está ${STATUS_LABEL[room.status].toLowerCase()} y no puedes acceder al cuestionario. Si ya participaste, accede con tus datos para ver los resultados.`}
+                />
+              }
+
+              <ErrorAlert message={error}  sx={{mb: 0}}/>
 
               <Grid size={12}>
                 <TextField 

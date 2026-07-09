@@ -22,7 +22,7 @@ const buildQuestion = (data: QuestionFormData, order: number): QuestionCreate =>
 
 export const useCreateQuestion = (nextOrder: number, onSuccess: () => void) => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [loading, setLoading] = useState(false)

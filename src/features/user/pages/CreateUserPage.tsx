@@ -30,7 +30,7 @@ const CreateUserPage = () => {
 
         <Box sx={{ py: 4, px: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
-          <ErrorAlert message={error} />
+          <ErrorAlert message={error} sx={{ mb: 0 }} />
 
           <Box component="form" noValidate sx={{ mt: 4, width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
 

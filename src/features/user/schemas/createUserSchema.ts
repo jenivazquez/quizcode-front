@@ -13,15 +13,15 @@ export const CreateUserSchema = z.object({
 
   repeatPassword: z.string(),
 
-  name: z.string()
+  name: z.string().trim()
     .min(1, { message: 'El nombre es obligatorio' })
     .regex(NAME_PATTERN, { message: 'El nombre contiene caracteres inválidos' }),
 
-  surname1: z.string()
+  surname1: z.string().trim()
     .min(1, { message: 'El primer apellido es obligatorio' })
     .regex(NAME_PATTERN, { message: 'El primer apellido contiene caracteres inválidos' }),
 
-  surname2: z.string()
+  surname2: z.string().trim()
     .min(1, { message: 'El segundo apellido es obligatorio' })
     .regex(NAME_PATTERN, { message: 'El segundo apellido contiene caracteres inválidos' }),
     

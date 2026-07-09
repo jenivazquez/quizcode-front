@@ -18,7 +18,7 @@ export const QuestionSchema = z.object({
     .int({ message: 'Debe ser un número entero' })
     .min(1, { message: 'Debe ser mayor que 0' }),
 
-  statement: z.string()
+  statement: z.string().trim()
     .min(1, { message: 'El enunciado es obligatorio' })
     .max(500, { message: 'El enunciado no puede superar los 500 caracteres' }),
 

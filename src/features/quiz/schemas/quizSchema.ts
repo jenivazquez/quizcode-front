@@ -2,11 +2,11 @@ import { z } from 'zod'
 
 export const QuizSchema = z.object({
 
-  title: z.string()
+  title: z.string().trim()
     .min(1, { message: 'El título es obligatorio' })
     .max(50, { message: 'El título no puede superar los 50 caracteres' }),
 
-  description: z.string()
+  description: z.string().trim()
     .min(1, { message: 'La descripción es obligatoria' })
     .max(500, { message: 'La descripción no puede superar los 500 caracteres' }),
 

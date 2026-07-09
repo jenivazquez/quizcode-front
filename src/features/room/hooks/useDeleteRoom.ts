@@ -12,15 +12,17 @@ export const useDeleteRoom = (navigateTo: string = PATHS.room.list) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const remove = async (quizId: string, roomId: string) => {
-    if (!userId || !quizId || !roomId) return
+  const remove = async (quizId: string, roomId: string): Promise<boolean> => {
+    if (!userId || !quizId || !roomId) return false
     setLoading(true)
     setError(null)
     try {
       await deleteRoom(userId, quizId, roomId)
       navigate(navigateTo)
+      return true
     } catch (err) {
       setError(getErrorMessage(err, 'Error al eliminar la sala'))
+      return false
     } finally {
       setLoading(false)
     }

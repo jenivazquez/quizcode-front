@@ -18,7 +18,7 @@ const updateQuestionForm = (aiQuestion: AIQuestion, form: UseFormReturn<Question
 
 export const useAiChat = (form: UseFormReturn<QuestionFormData>) => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [history, setHistory] = useState<Message[]>([])
@@ -34,6 +34,7 @@ export const useAiChat = (form: UseFormReturn<QuestionFormData>) => {
     try {
       const aiQuestion = await generateQuestion(userId, quizId, newHistory)
       updateQuestionForm(aiQuestion, form)
+      await form.trigger()
       setHistory(prev => [...prev, { role: 'assistant', content: JSON.stringify(aiQuestion) }])
     } catch (err) {
       setError(getErrorMessage(err, 'Error al generar la pregunta'))

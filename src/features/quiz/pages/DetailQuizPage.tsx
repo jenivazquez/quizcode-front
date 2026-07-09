@@ -25,7 +25,7 @@ import { STATUS_LABEL, sxStatusChip } from '../constants/quizConstants'
 
 const DetailQuizPage = () => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const { quiz, loading: loadingQuiz, error: detailError, refreshQuiz } = useDetailQuiz()

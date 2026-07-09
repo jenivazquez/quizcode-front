@@ -7,7 +7,7 @@ import type { QuestionDetail } from '../types/question'
 
 export const useListQuestions = () => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
 
   const [questions, setQuestions] = useState<QuestionDetail[]>([])

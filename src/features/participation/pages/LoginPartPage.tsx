@@ -6,6 +6,7 @@ import ErrorAlert from '../../../shared/components/ErrorAlert'
 import PageLoader from '../../../shared/components/PageLoader'
 import { useLoginPart } from '../hooks/useLoginPart'
 import { useDetailRoomToAnswer } from '../../room/hooks/useDetailRoomToAnswer'
+import { useDetailQuizToAnswer } from '../../quiz/hooks/useDetailQuizToAnswer'
 import { PART_PATHS } from '../routes/participationPaths'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -14,19 +15,20 @@ const LoginPartPage = () => {
   const { roomId } = useParams<{ roomId: string }>()
 
   const { room, loading: loadingRoom } = useDetailRoomToAnswer()
+  const { quiz, loading: loadingQuiz } = useDetailQuizToAnswer(room?.quizId)
   const { form, onSubmit, loading, error } = useLoginPart()
 
   const { register, handleSubmit, formState: { errors } } = form
 
-  if (loadingRoom) return <PageLoader />
-  if (!room) return null
+  if (loadingRoom || loadingQuiz) return <PageLoader />
+  if (!room || !quiz) return null
 
   return (
     <Container maxWidth='lg' sx={{ py: { xs: 3, sm: 4 } }}>
 
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
 
-        <QuizHeader quizId={room.quizId} />
+        <QuizHeader quiz={quiz} room={room} />
 
         <Divider />
 
@@ -43,7 +45,7 @@ const LoginPartPage = () => {
 
           <ErrorAlert message={error} />
 
-          <Box component='form' onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 5 }}>
+          <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 5 }}>
 
             <TextField 
               label='Nombre de usuario' 

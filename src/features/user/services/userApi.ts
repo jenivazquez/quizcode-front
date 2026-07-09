@@ -1,5 +1,5 @@
 import { type UserResponse } from './userResponse'
-import { privateApi } from '../../../shared/api/privateApi'
+import { privateApiUser } from '../../../shared/api/privateApiUser'
 import { publicApi } from '../../../shared/api/publicApi'
 import { type UserDetail, type UserCreate, type UserUpdate } from '../types/user'
 
@@ -8,15 +8,15 @@ export async function createUser(user: UserCreate): Promise<void> {
 }
 
 export async function updateUser(userId: string, user: UserUpdate): Promise<void> {
-  await privateApi.patch(`/user/${userId}`, user)
+  await privateApiUser.patch(`/user/${userId}`, user)
 }
 
 export async function findUserById(userId: string): Promise<UserDetail> {
-  const response = await privateApi.get<UserResponse>(`/user/${userId}`)
+  const response = await privateApiUser.get<UserResponse>(`/user/${userId}`)
   return response.data 
 }
 
 export async function deactivateUser(userId: string): Promise<void> {
   const body = { active: false }
-  await privateApi.patch(`/user/${userId}/status`, body)
+  await privateApiUser.patch(`/user/${userId}/status`, body)
 }

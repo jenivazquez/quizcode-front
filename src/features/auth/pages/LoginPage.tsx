@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography, Paper, Link, Container } from '@mui
 import { Link as RouterLink } from 'react-router-dom'
 import { useLogin } from '../hooks/useLogin'
 import ErrorAlert from '../../../shared/components/ErrorAlert'
-import { sessionStore } from '../../../shared/utils/sessionStore'
+import { userSessionStore } from '../../../shared/session/userSessionStore'
 import { PATHS } from '../../../app/routes/paths'
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const { register, handleSubmit, formState: { errors } } = form
   
-  const sessionExpired = sessionStore.wasExpired()
+  const sessionExpired = userSessionStore.wasExpired()
 
   return (
 
@@ -25,9 +25,9 @@ const LoginPage = () => {
 
         <Box sx={{ p: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
 
-          <ErrorAlert severity="warning" message={sessionExpired ? 'Tu sesión ha expirado. Inicia sesión de nuevo.' : null} />
+          <ErrorAlert severity="warning" message={sessionExpired ? 'Tu sesión ha expirado. Inicia sesión de nuevo.' : null} sx={{ mb: 0 }} />
           
-          <ErrorAlert message={error} />
+          <ErrorAlert message={error} sx={{ mb: 0 }}/>
 
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ width: '100%' }}>
 

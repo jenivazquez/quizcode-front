@@ -21,7 +21,7 @@ import { useDetailRoom } from '../../room/hooks/useDetailRoom'
 import { useDetailPartOwner } from '../hooks/useDetailPartOwner'
 import { useDeletePart } from '../hooks/useDeletePart'
 import { useReviewPart } from '../hooks/useReviewPart'
-import { useListQuestionsToReview } from '../../question/hooks/useListQuestionsToReview'
+import { useListQuestions } from '../../question/hooks/useListQuestions'
 import { PATHS } from '../../../app/routes/paths'
 import { QuestionType } from '../../question/types/question'
 import { REVIEW_STATUS } from '../constants/participationConstants'
@@ -35,7 +35,7 @@ const DetailPartOwnerPage = () => {
 
   const { room, loading: loadingRoom, error: roomError } = useDetailRoom()
   const { part, loading: loadingPart, error: partError, refreshPart } = useDetailPartOwner()
-  const { questions, loading: loadingQuestions, error: questionsError } = useListQuestionsToReview(room?.quizId)
+  const { questions, loading: loadingQuestions, error: questionsError } = useListQuestions()
   const { remove, loading: loadingDelete, error: deleteError } = useDeletePart()
   const { isEditing, reviewData, initEdit, onCancel, updateField, onSubmit, loading: loadingReview, error: reviewError } = useReviewPart(questions ?? [], part)
 
@@ -126,7 +126,7 @@ const DetailPartOwnerPage = () => {
         <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 3, p: 2, borderRadius: 2, border: '1px solid', borderColor: 'primary.light', bgcolor: theme => alpha(theme.palette.primary.main, 0.04) }}>
           <InfoOutlinedIcon sx={{ color: 'primary.main', fontSize: 20, mt: 0.1, flexShrink: 0 }} />
           <Typography variant='body2' color='text.secondary'>
-            A continuación, puedes <strong>modificar</strong> la corrección realizada por la IA. Las preguntas tipo test solo permiten añadir un comentario, pero en el resto de preguntas puedes cambiar también la puntuación.
+            A continuación, puedes <strong>modificar</strong> la corrección realizada por la IA: ajustar la puntuación, marcar la respuesta como correcta o incorrecta y añadir un comentario.
           </Typography>
         </Box>
       )}

@@ -6,7 +6,7 @@ import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 
 export const useDeleteQuestion = () => {
 
-  const { id: quizId } = useParams<{ id: string }>()
+  const { quizId } = useParams<{ quizId: string }>()
   const { userId } = useAuth()
   
   const [loading, setLoading] = useState(false)

@@ -6,6 +6,7 @@ import { findRoomByCode } from '../services/roomApi'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { JoinRoomSchema } from '../schemas/joinRoomSchema'
 import { PATHS } from '../../../app/routes/paths'
+import { RoomStatus } from '../types/room'
 import type { JoinRoomFormData } from '../schemas/joinRoomSchema'
 
 export const useJoinRoom = () => {
@@ -24,7 +25,7 @@ export const useJoinRoom = () => {
     setError(null)
     try {
       const room = await findRoomByCode(codeUpperCase)
-      navigate(PATHS.part.create(room.id))
+      navigate(room.status === RoomStatus.OPENED ? PATHS.part.create(room.id) : PATHS.part.login(room.id))
     } catch (err) {
       setError(getErrorMessage(err, 'No existe ninguna sala con ese código'))
     } finally {

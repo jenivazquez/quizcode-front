@@ -60,10 +60,8 @@ const RankingPartPage = () => {
           
           <EmojiEventsIcon sx={{ fontSize: 52, color: '#f0c040' }} />
           <Typography variant='h5' fontWeight={700}>Clasificación</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant='body2' color='text.secondary' fontWeight={500}>Cuestionario:</Typography>
-            <Typography variant='body2' color='text.secondary'>{quiz.title}</Typography>
-          </Box>
+          <Typography variant='body1' color='text.secondary'><b>Cuestionario:</b> {quiz.title}</Typography>
+          <Typography variant='body1' color='text.secondary'><b>Sala:</b> {room.name}</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant='body2' color='text.secondary'>Estado de la sala:</Typography>
             <Chip label={STATUS_LABEL[room.status]} variant='outlined' size='small' sx={sxStatusChip[room.status]} />

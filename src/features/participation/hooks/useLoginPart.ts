@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate, useParams } from 'react-router-dom'
 import { loginPart } from '../services/participationApi'
+import { useAuth } from '../../../shared/hooks/useAuth'
 import { getErrorMessage } from '../../../shared/utils/getErrorMessage'
 import { LoginPartSchema } from '../schemas/loginPartSchema'
 import { PartStatus } from '../types/participation'
@@ -18,6 +19,7 @@ const buildPart = (data: LoginPartFormData): PartLogin => ({
 export const useLoginPart = () => {
 
   const { roomId } = useParams<{ roomId: string }>()
+  const { saveSessionPart } = useAuth()
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -32,7 +34,8 @@ export const useLoginPart = () => {
     setLoading(true)
     setError(null)
     try {
-      const { id: partId, status } = await loginPart(roomId, buildPart(data))
+      const { id: partId, status, token, validUntil } = await loginPart(roomId, buildPart(data))
+      saveSessionPart(roomId, partId, token, validUntil, status)
       navigate(status === PartStatus.STARTED ? PATHS.part.answerQuiz(roomId, partId) : PATHS.part.ranking(roomId, partId))
     } catch (err) {
       setError(getErrorMessage(err, 'Error al iniciar sesión'))
